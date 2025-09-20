@@ -1,0 +1,993 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+  a4paper,
+]{scrreprt}
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[Ligatures=TeX]{PT Serif}
+  \setsansfont[Ligatures=TeX,Scale=MatchLowercase]{PT Sans}
+  \setmonofont[Scale=MatchLowercase,Scale=0.9]{PT Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{\textbf{#1}}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{russian}
+\ifPDFTeX
+\else
+\babelfont[russian]{rm}{PT Serif}
+\fi
+\babelprovide[import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\usepackage{indentfirst}
+\usepackage{float}
+\floatplacement{figure}{H}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[style=gost-numeric,parentracker=true,backend=biber,hyperref=auto,language=auto,autolang=other*,citestyle=gost-numeric]{biblatex}
+\addbibresource{bib/cite.bib}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Лабораторная работа №3},
+  pdfauthor={Николаев Дмитрий Иванович, НПМмд-02-24},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Лабораторная работа №3}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Научное программирование}
+\author{Николаев Дмитрий Иванович, НПМмд-02-24}
+\date{}
+
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+\setstretch{1.5}
+\hypertarget{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}{%
+\chapter{Цель
+работы}\label{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}}
+
+Получение первичных практических навыков работы с языком Octave.
+
+\hypertarget{ux442ux435ux43eux440ux435ux442ux438ux447ux435ux441ux43aux43eux435-ux432ux432ux435ux434ux435ux43dux438ux435}{%
+\chapter{Теоретическое
+введение}\label{ux442ux435ux43eux440ux435ux442ux438ux447ux435ux441ux43aux43eux435-ux432ux432ux435ux434ux435ux43dux438ux435}}
+
+\hypertarget{ux432ux432ux435ux434ux435ux43dux438ux435}{%
+\section{Введение}\label{ux432ux432ux435ux434ux435ux43dux438ux435}}
+
+GNU Octave --- это высокоуровневый язык программирования,
+предназначенный для численных вычислений {[}1{]}. Он является мощной
+альтернативой MATLAB и предоставляет пользователям возможность решать
+задачи математического моделирования, анализа данных и научных
+исследований. С момента своего появления, Octave завоевал популярность
+среди студентов, исследователей и инженеров благодаря своей доступности
+и функциональности.
+
+\hypertarget{ux438ux441ux442ux43eux440ux438ux44f-ux438-ux440ux430ux437ux432ux438ux442ux438ux435}{%
+\section{История и
+развитие}\label{ux438ux441ux442ux43eux440ux438ux44f-ux438-ux440ux430ux437ux432ux438ux442ux438ux435}}
+
+Octave был создан в начале 1990-х годов Джоном Д. Бейнсом и стал одним
+из первых проектов в области свободного программного обеспечения для
+выполнения числовых операций. С тех пор он активно развивался, и его
+функционал постоянно расширялся. С момента последнего стабильного
+релиза, Octave продолжает поддерживаться и обновляться сообществом, что
+позволяет ему оставаться актуальным инструментом для научных
+исследований и инженерных задач.
+
+\hypertarget{ux43eux441ux43dux43eux432ux43dux44bux435-ux43eux441ux43eux431ux435ux43dux43dux43eux441ux442ux438}{%
+\section{Основные
+особенности}\label{ux43eux441ux43dux43eux432ux43dux44bux435-ux43eux441ux43eux431ux435ux43dux43dux43eux441ux442ux438}}
+
+Octave поддерживает большинство функций MATLAB, что позволяет
+пользователям с опытом работы в MATLAB без труда осваивать его. Среди
+основных особенностей Octave можно выделить:
+
+\begin{itemize}
+\tightlist
+\item
+  Векторизация: Это позволяет выполнять операции над массивами матриц и
+  векторов, что значительно ускоряет вычисления по сравнению с обычными
+  циклами.
+\item
+  Интерактивная среда: Octave предоставляет пользовательский интерфейс
+  командной строки, что упрощает тестирование и отладку кода.
+\item
+  Богатая библиотека функций: В Octave имеется множество встроенных
+  функций для работы с математикой, статистикой, линейной алгеброй и
+  сигналами.
+\item
+  Графические возможности: Инструменты для построения графиков и
+  визуализации данных делают Octave мощным инструментом для анализа
+  данных.
+\end{itemize}
+
+\hypertarget{ux43fux440ux438ux43cux435ux43dux435ux43dux438ux435}{%
+\section{Применение}\label{ux43fux440ux438ux43cux435ux43dux435ux43dux438ux435}}
+
+Octave находит применение в самых различных областях, включая:
+
+\begin{itemize}
+\tightlist
+\item
+  Инженерия: Моделирование и симуляция систем управления.
+\item
+  Научные исследования: Анализ и визуализация данных в физических и
+  биологических науках.
+\item
+  Образование: Преподавание численных методов и программирования.
+\end{itemize}
+
+\hypertarget{ux432ux44bux43fux43eux43bux43dux435ux43dux438ux435-ux43bux430ux431ux43eux440ux430ux442ux43eux440ux43dux43eux439-ux440ux430ux431ux43eux442ux44b}{%
+\chapter{Выполнение лабораторной
+работы}\label{ux432ux44bux43fux43eux43bux43dux435ux43dux438ux435-ux43bux430ux431ux43eux440ux430ux442ux43eux440ux43dux43eux439-ux440ux430ux431ux43eux442ux44b}}
+
+Следуем указаниям {[}2{]}
+
+\hypertarget{ux43fux440ux43eux441ux442ux435ux439ux448ux438ux435-ux43eux43fux435ux440ux430ux446ux438ux438}{%
+\section{Простейшие
+операции}\label{ux43fux440ux43eux441ux442ux435ux439ux448ux438ux435-ux43eux43fux435ux440ux430ux446ux438ux438}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Включите журналирование сессии.
+
+\begin{verbatim}
+diary on
+\end{verbatim}
+\item
+  Поскольку оператор \texttt{diary} является переключателем, то
+  достаточно ввести:
+
+\begin{verbatim}
+diary
+\end{verbatim}
+
+  чтобы переключить состояние журналирования.
+\item
+  Octave можно использовать как простейший калькулятор. Вычислим
+  выражение:
+
+  \[ 2 \times 6 + (7 - 4)^2 \]
+
+  В Octave это будет иметь следующий вид:
+
+\begin{verbatim}
+2*6 + (7-4)^2
+ans = 21
+\end{verbatim}
+\item
+  Зададим вектор-строку (ковектор): \[
+  \mathbf{u} = (1, -4, 6)
+  \]
+
+\begin{verbatim}
+u = [1 -4 6]
+u =
+   1  -4  6
+\end{verbatim}
+\item
+  Аналогично можно задать вектор-столбец (вектор) ({[}\ref{fig:001}{]}):
+  \[
+  \mathbf{u} =
+  \begin{pmatrix}
+     1  \\
+    -4  \\
+     6
+  \end{pmatrix}
+  \]
+
+\begin{verbatim}
+u = [1; -4; 6]
+u =
+   1
+  -4
+   6
+\end{verbatim}
+\item
+  Теперь зададим матрицу: \[
+  \mathbf{A} =
+  \begin{pmatrix}
+     1 & 2  & -3 \\
+     2 & 4  &  0 \\
+     1 & 1  &  1
+  \end{pmatrix}
+  \]
+
+\begin{verbatim}
+A = [1 2 -3; 2 4 0; 1 1 1]
+A =
+   1  2 -3
+   2  4  0
+   1  1  1
+\end{verbatim}
+
+  \begin{figure}
+  \hypertarget{fig:001}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/1.png}
+  \caption{Простейшие операции в Octave}\label{fig:001}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux43eux43fux435ux440ux430ux446ux438ux438-ux441-ux432ux435ux43aux442ux43eux440ux430ux43cux438}{%
+\section{Операции с
+векторами}\label{ux43eux43fux435ux440ux430ux446ux438ux438-ux441-ux432ux435ux43aux442ux43eux440ux430ux43cux438}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Зададим два вектора-столбца: \[
+  \mathbf{u} =
+  \begin{pmatrix}
+     1  \\
+    -4  \\
+     6
+  \end{pmatrix}, \quad
+  \mathbf{v} =
+  \begin{pmatrix}
+     2  \\
+     1  \\
+    -1
+  \end{pmatrix}
+  \]
+
+\begin{verbatim}
+u = [1; -4; 6]
+v = [2; 1; -1]
+\end{verbatim}
+\item
+  Сложение векторов: \[
+  2\mathbf{v} + 3\mathbf{u}
+  \]
+
+\begin{verbatim}
+2*v + 3*u
+ans =
+   7
+ -10
+  16
+\end{verbatim}
+\item
+  Скалярное умножение векторов \(\mathbf{u} \cdot \mathbf{v}\):
+
+\begin{verbatim}
+dot(u, v)
+ans = -8
+\end{verbatim}
+\item
+  Векторное умножение \(\mathbf{u} \times \mathbf{v}\):
+
+\begin{verbatim}
+cross(u, v)
+ans =
+  -2
+  13
+   9
+\end{verbatim}
+\item
+  Норма вектора \(\|\mathbf{u}\|\) ({[}\ref{fig:002}{]}):
+
+\begin{verbatim}
+norm(u)
+ans = 7.2801
+\end{verbatim}
+
+  \begin{figure}
+  \hypertarget{fig:002}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/2.png}
+  \caption{Операции с векторами в Octave}\label{fig:002}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux432ux44bux447ux438ux441ux43bux435ux43dux438ux435-ux43fux440ux43eux435ux43aux442ux43eux440ux430}{%
+\section{Вычисление
+проектора}\label{ux432ux44bux447ux438ux441ux43bux435ux43dux438ux435-ux43fux440ux43eux435ux43aux442ux43eux440ux430}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Введём два вектора-строки: \[
+  \mathbf{u} = (3, 5), \quad \mathbf{v} = (7, 2)
+  \]
+
+\begin{verbatim}
+u = [3 5]
+v = [7 2]
+\end{verbatim}
+\item
+  Вычислим проекцию вектора \(\mathbf{u}\) на вектор \(\mathbf{v}\).
+  Пусть \(\theta\)\textasciitilde--- угол между \(\mathbf{u}\) и
+  \(\mathbf{v}\). Тогда верна формула:
+
+  \[
+   \|\text{proj}_{\mathbf{v}} \mathbf{u}\| = \|\mathbf{u}\| \cos \theta.
+   \]
+
+  Учитывая, что
+
+  \[
+   \mathbf{u} \cdot \mathbf{v} = \|\mathbf{u}\| \|\mathbf{v}\| \cos \theta,
+   \]
+
+  запишем:
+
+  \[
+   \|\text{proj}_{\mathbf{v}} \mathbf{u}\| = \|\mathbf{u}\| \cos \theta = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{v}\|}.
+   \]
+
+  Поскольку направление проекции совпадает с направлением вектора
+  \(\mathbf{v}\), то запишем:
+
+  \[
+   \text{proj}_{\mathbf{v}} \mathbf{u} = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{v}\|} \cdot \frac{\mathbf{v}}{\|\mathbf{v}\|} = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{v}\|^2} \mathbf{v}.
+   \]
+
+  В Octave это можно вычислить следующим образом ({[}\ref{fig:003}{]}):
+
+\begin{verbatim}
+proj = dot(u, v) / (norm(v))^2 * v
+proj =
+   4.0943   1.1698
+\end{verbatim}
+
+  \begin{figure}
+  \hypertarget{fig:003}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/3.png}
+  \caption{Вычисление проектора в Octave}\label{fig:003}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux43cux430ux442ux440ux438ux447ux43dux44bux435-ux43eux43fux435ux440ux430ux446ux438ux438}{%
+\section{Матричные
+операции}\label{ux43cux430ux442ux440ux438ux447ux43dux44bux435-ux43eux43fux435ux440ux430ux446ux438ux438}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Введём матрицы \(\mathbf{A}\) и \(\mathbf{B}\):
+
+  \[
+   \mathbf{A} = \begin{pmatrix}
+   1 & 2 & -3 \\
+   2 & 4 & 0 \\
+   1 & 1 & 1
+   \end{pmatrix}
+   , \quad
+   \mathbf{B} = \begin{pmatrix}
+   1 & 2 & 3 & 4 \\
+   0 & -2 & -4 & 6 \\
+   1 & -1 & 0 & 0
+   \end{pmatrix}.
+   \]
+
+\begin{verbatim}
+A = [1 2 -3; 2 4 0; 1 1 1]
+B = [1 2 3 4; 0 -2 -4 6; 1 -1 0 0]
+\end{verbatim}
+\item
+  Вычислим произведение матриц \(\mathbf{A} \cdot \mathbf{B}\):
+
+\begin{verbatim}
+A * B
+ans =
+  -2   1  -5  16
+   2  -4 -10  32
+   2  -1  -1  10
+\end{verbatim}
+\item
+  Вычислим произведение матриц \(\mathbf{B}^T \cdot \mathbf{A}\):
+
+\begin{verbatim}
+B' * A
+ans =
+   2   3  -2
+  -3  -5  -7
+  -5 -10  -9
+  16  32 -12
+\end{verbatim}
+\item
+  Вычислим \(2\mathbf{A} - 4\mathbf{I}\) ({[}\ref{fig:004}{]}):
+
+\begin{verbatim}
+2 * A - 4 * eye(3)
+ans =
+  -2   4  -6
+   4   4   0
+   2   2  -2
+\end{verbatim}
+\item
+  Найдём определитель \(|\mathbf{A}|\):
+
+\begin{verbatim}
+det(A)
+ans = 6
+\end{verbatim}
+\item
+  Найдём обратную матрицу \(\mathbf{A}^{-1}\):
+
+\begin{verbatim}
+inv(A)
+ans =
+   0.66667  -0.83333   2.00000
+  -0.33333   0.66667  -1.00000
+  -0.33333   0.16667   0.00000
+\end{verbatim}
+\item
+  Найдём собственные значения матрицы \(\mathbf{A}\):
+
+\begin{verbatim}
+eig(A)
+ans =
+   4.52510 + 0.00000i
+   0.73745 + 0.88437i
+   0.73745 - 0.88437i
+\end{verbatim}
+\item
+  Найдём ранг матрицы \(\mathbf{A}\) ({[}\ref{fig:005}{]}):
+
+\begin{verbatim}
+rank(A)
+ans = 3
+\end{verbatim}
+
+  \begin{figure}
+  \hypertarget{fig:004}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/4.png}
+  \caption{Матричные операции в Octave 1}\label{fig:004}
+  }
+  \end{figure}
+
+  \begin{figure}
+  \hypertarget{fig:005}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/5.png}
+  \caption{Матричные операции в Octave 2}\label{fig:005}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux43fux43eux441ux442ux440ux43eux435ux43dux438ux435-ux43fux440ux43eux441ux442ux435ux439ux448ux438ux445-ux433ux440ux430ux444ux438ux43aux43eux432}{%
+\section{Построение простейших
+графиков}\label{ux43fux43eux441ux442ux440ux43eux435ux43dux438ux435-ux43fux440ux43eux441ux442ux435ux439ux448ux438ux445-ux433ux440ux430ux444ux438ux43aux43eux432}}
+
+Построим график функции \(\sin x\) на интервале \([0, 2\pi]\)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Создадим вектор значений \(x\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{=} \FunctionTok{linspace}\NormalTok{(}\FloatTok{0}\OperatorTok{,} \FloatTok{2}\OperatorTok{*}\BuiltInTok{pi}\OperatorTok{,} \FloatTok{50}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  Команда
+  \texttt{linspace(начальное\_значение,\ конечное\_значение,\ n)}
+  создаёт вектор-строку из \(n\) равномерно распределённых значений на
+  заданном интервале. Чем меньше приращение, тем более гладкой будет
+  выглядеть кривая. Точка с запятой в конце строки подавляет вывод на
+  экран.
+\item
+  Зададим вектор \(y = \sin x\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OperatorTok{=} \FunctionTok{sin}\NormalTok{(x)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Построим график:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(x}\OperatorTok{,}\NormalTok{ y)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  В результате получим следующий график (рис. {[}\ref{fig:graph1}{]}).
+
+  \begin{figure}
+  \hypertarget{fig:graph1}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/fig1.png}
+  \caption{График \(y = \sin x\) 1}\label{fig:graph1}
+  }
+  \end{figure}
+\item
+  Улучшим внешний вид графика. Сначала очистим получившийся график:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{clf}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  Заданные вектора \(x\) и \(y\) сохранятся.
+\item
+  Зададим красный цвет для линии и сделаем её потолще:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(x}\OperatorTok{,}\NormalTok{ y}\OperatorTok{,} \StringTok{\textquotesingle{}r\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}linewidth\textquotesingle{}}\OperatorTok{,} \FloatTok{3}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Подгоним диапазон осей:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{axis}\NormalTok{([}\FloatTok{0} \FloatTok{2}\OperatorTok{*}\BuiltInTok{pi} \OperatorTok{{-}}\FloatTok{1} \FloatTok{1}\NormalTok{])}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Нарисуем сетку:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{grid}\NormalTok{ on}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Подпишем оси:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{xlabel}\NormalTok{(}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\FunctionTok{ylabel}\NormalTok{(}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Сделаем заголовок графика:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{title}\NormalTok{(}\StringTok{\textquotesingle{}Sine graph\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Зададим легенду ({[}\ref{fig:006}{]}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}y=sin(x)\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{figure}
+  \hypertarget{fig:006}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/6.png}
+  \caption{Построение простейших графиков в Octave}\label{fig:006}
+  }
+  \end{figure}
+
+  В результате получим следующий график (рис. {[}\ref{fig:graph1}{]}).
+
+  \begin{figure}
+  \hypertarget{fig:graph2}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/fig2.png}
+  \caption{График \(y = \sin x\) 2}\label{fig:graph2}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux434ux432ux430-ux433ux440ux430ux444ux438ux43aux430-ux43dux430-ux43eux434ux43dux43eux43c-ux447ux435ux440ux442ux435ux436ux435}{%
+\section{Два графика на одном
+чертеже}\label{ux434ux432ux430-ux433ux440ux430ux444ux438ux43aux430-ux43dux430-ux43eux434ux43dux43eux43c-ux447ux435ux440ux442ux435ux436ux435}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Очистим память и рабочую область фигуры:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{clear}\OperatorTok{;}
+\FunctionTok{clf}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Зададим два вектора:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{=}\NormalTok{ [}\FloatTok{1} \FloatTok{2} \FloatTok{3} \FloatTok{4}\NormalTok{]}\OperatorTok{;}
+\NormalTok{y }\OperatorTok{=}\NormalTok{ [}\FloatTok{1} \FloatTok{2} \FloatTok{5} \FloatTok{4}\NormalTok{]}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Построим эти точки, используя кружочки как маркеры:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(x}\OperatorTok{,}\NormalTok{ y}\OperatorTok{,} \StringTok{\textquotesingle{}o\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Чтобы добавить к нашему графику ещё один, используем команду:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hold}\NormalTok{ on}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Добавим график регрессии:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(x}\OperatorTok{,} \FloatTok{1.2}\OperatorTok{*}\NormalTok{x)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Зададим сетку, оси и легенду ({[}\ref{fig:007}{]}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{grid}\NormalTok{ on}\OperatorTok{;}
+\FunctionTok{axis}\NormalTok{([}\FloatTok{0} \FloatTok{5} \FloatTok{0} \FloatTok{6}\NormalTok{])}\OperatorTok{;}
+\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}data points\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}regressionline\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{figure}
+  \hypertarget{fig:007}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/7.png}
+  \caption{Два графика на одном чертеже в Octave}\label{fig:007}
+  }
+  \end{figure}
+
+  В результате получим график (рис. {[}\ref{fig:graph3}{]}).
+
+  \begin{figure}
+  \hypertarget{fig:graph3}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/fig3.png}
+  \caption{График точек и регрессиии в Octave}\label{fig:graph3}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux433ux440ux430ux444ux438ux43a-y-x2-sin-x}{%
+\section{\texorpdfstring{График
+\(y = x^2 \sin x\)}{График y = x\^{}2 \textbackslash sin x}}\label{ux433ux440ux430ux444ux438ux43a-y-x2-sin-x}}
+
+Построим график \(y = x^2 \sin x\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Очистим память и рабочую область фигуры:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{clear}\OperatorTok{;}
+\FunctionTok{clf}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Зададим вектор \(x\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{=} \FunctionTok{linspace}\NormalTok{(}\OperatorTok{{-}}\FloatTok{10}\OperatorTok{,} \FloatTok{10}\OperatorTok{,} \FloatTok{100}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Построим график \(y = x^2 \sin x\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(x}\OperatorTok{,}\NormalTok{ x}\OperatorTok{\^{}}\FloatTok{2} \OperatorTok{*} \FunctionTok{sin}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
+
+  Ошибка:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{error}\OperatorTok{:} \ControlFlowTok{for}\NormalTok{ x}\OperatorTok{\^{}}\NormalTok{y}\OperatorTok{,}\NormalTok{ only square matrix arguments are permitted }\FunctionTok{and}\NormalTok{ one argument must be scalar. Use }\OperatorTok{.\^{}} \ControlFlowTok{for}\NormalTok{ elementwise power.}
+\end{Highlighting}
+\end{Shaded}
+
+  Ничего не получилось. Мы задали в выражении матричное умножение, в то
+  время как нужно поэлементное.
+\item
+  Построим график \(y = x^2 \sin x\), используя поэлементное возведение
+  в степень \texttt{.\^{}} и поэлементное умножение \texttt{.*}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(x}\OperatorTok{,}\NormalTok{ x}\OperatorTok{.\^{}}\FloatTok{2} \OperatorTok{.*} \FunctionTok{sin}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Сохраним графики в виде файлов (два разных формата вызова функции):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{ graph2.png }\OperatorTok{{-}}\NormalTok{dpng}
+\FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}graph2.pdf\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}{-}dpdf\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  В результате получим график (рис. {[}\ref{fig:graph4}{]}).
+
+  \begin{figure}
+  \hypertarget{fig:graph4}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/graph2.png}
+  \caption{График \(y = x^2 \sin x\) в Octave}\label{fig:graph4}
+  }
+  \end{figure}
+\end{enumerate}
+
+\hypertarget{ux441ux440ux430ux432ux43dux435ux43dux438ux435-ux446ux438ux43aux43bux43eux432-ux438-ux43eux43fux435ux440ux430ux446ux438ux439-ux441-ux432ux435ux43aux442ux43eux440ux430ux43cux438}{%
+\section{Сравнение циклов и операций с
+векторами}\label{ux441ux440ux430ux432ux43dux435ux43dux438ux435-ux446ux438ux43aux43bux43eux432-ux438-ux43eux43fux435ux440ux430ux446ux438ux439-ux441-ux432ux435ux43aux442ux43eux440ux430ux43cux438}}
+
+Сравним эффективность работы с циклами и операций с векторами. Для этого
+вычислим сумму:
+
+\[
+\sum_{n=1}^{1000000} \frac{1}{n^2}
+\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Очистим память и рабочую область фигуры:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{clear}\OperatorTok{;}
+\FunctionTok{clf}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Вычислим сумму \(\sum_{n=1}^{100000} \frac{1}{n^2}\) с помощью цикла.
+  Создадим файл \texttt{loop\_for.m} ({[}\ref{fig:008}{]}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{clear}\OperatorTok{;}
+\FunctionTok{tic}\OperatorTok{;}
+\NormalTok{s }\OperatorTok{=} \FloatTok{0}\OperatorTok{;}
+\ControlFlowTok{for}\NormalTok{ n }\OperatorTok{=} \FloatTok{1}\OperatorTok{:}\FloatTok{100000}
+\NormalTok{    s }\OperatorTok{=}\NormalTok{ s }\OperatorTok{+} \FloatTok{1}\OperatorTok{/}\NormalTok{n}\OperatorTok{\^{}}\FloatTok{2}\OperatorTok{;}
+\ControlFlowTok{end}
+\FunctionTok{toc}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  Функции \texttt{tic} и \texttt{toc} служат для запуска и остановки
+  таймера.
+
+  \begin{figure}
+  \hypertarget{fig:008}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/8.png}
+  \caption{Вычисление суммы с помощью цикла в Octave}\label{fig:008}
+  }
+  \end{figure}
+\item
+  Запустим файл \texttt{loop\_for.m}. Вывод:
+
+\begin{verbatim}
+Elapsed time is 0.117988 seconds.
+\end{verbatim}
+\item
+  Вычислим ту же сумму с помощью операций с векторами. Создадим файл
+  \texttt{loop\_vec.m} ({[}\ref{fig:009}{]}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{clear}\OperatorTok{;}
+\FunctionTok{tic}\OperatorTok{;}
+\NormalTok{n }\OperatorTok{=} \FloatTok{1}\OperatorTok{:}\FloatTok{100000}\OperatorTok{;}
+\NormalTok{s }\OperatorTok{=} \FunctionTok{sum}\NormalTok{(}\FloatTok{1}\OperatorTok{./}\NormalTok{n}\OperatorTok{.\^{}}\FloatTok{2}\NormalTok{)}\OperatorTok{;}
+\FunctionTok{toc}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{figure}
+  \hypertarget{fig:009}{%
+  \centering
+  \includegraphics[width=0.8\textwidth,height=\textheight]{image/9.png}
+  \caption{Вычисление суммы с помощью операций с векторами в
+  Octave}\label{fig:009}
+  }
+  \end{figure}
+\item
+  Запустим файл \texttt{loop\_vec.m}. Вывод:
+
+\begin{verbatim}
+Elapsed time is 0.00294495 seconds.
+\end{verbatim}
+\end{enumerate}
+
+Сравните результаты ({[}\ref{fig:010}{]}).
+
+\begin{figure}
+\hypertarget{fig:010}{%
+\centering
+\includegraphics[width=0.8\textwidth,height=\textheight]{image/10.png}
+\caption{Сравнение способов вычисления суммы с помощью цикла и операций
+с векторами в Octave}\label{fig:010}
+}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\item
+  Завершим запись в файл:
+
+\begin{verbatim}
+diary off
+\end{verbatim}
+\end{enumerate}
+
+\hypertarget{ux432ux44bux432ux43eux434ux44b}{%
+\chapter{Выводы}\label{ux432ux44bux432ux43eux434ux44b}}
+
+В ходе выполнения лабораторной работы я получил первичные практические
+навыки работы с высокоуровневым языком программирования Octave.
+
+\hypertarget{ux441ux43fux438ux441ux43eux43a-ux43bux438ux442ux435ux440ux430ux442ux443ux440ux44b}{%
+\chapter*{Список
+литературы}\label{ux441ux43fux438ux441ux43eux43a-ux43bux438ux442ux435ux440ux430ux442ux443ux440ux44b}}
+\addcontentsline{toc}{chapter}{Список литературы}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{0}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-doc}{}}%
+\CSLLeftMargin{1. }%
+\CSLRightInline{{Документация GNU Octave} {[}Электронный ресурс{]}.
+2024. URL: \url{https://www.gnu.org/software/octave/doc/interpreter/}.}
+
+\leavevmode\vadjust pre{\hypertarget{ref-lab3}{}}%
+\CSLLeftMargin{2. }%
+\CSLRightInline{{Кулябов Д. С. Лабораторная работа №3. Введение в работу
+с Octave} {[}Электронный ресурс{]}. RUDN, 2024. URL:
+\url{https://esystem.rudn.ru/pluginfile.php/2372902/mod_resource/content/3/003-octave-intro.pdf}.}
+
+\end{CSLReferences}
+
+\printbibliography
+
+\end{document}
