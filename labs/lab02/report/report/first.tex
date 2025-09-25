@@ -1,0 +1,19 @@
+% Преамбула документа
+\documentclass[a4paper,12pt]{article} % The document class with options
+% select T1 font encoding: suitable for Western European Latin scripts
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % Пакет для поддержки кодировки UTF-8
+\usepackage[russian]{babel} % Пакет для поддержки русского языка
+
+% A comment in the preamble
+% Тело документа
+\begin{document}
+Hey world!
+This is a first document.
+
+Это первый абзац на русском языке. LaTeX --- это мощная система верстки, которая идеально подходит для подготовки научных публикаций\footnote{И не только!}.
+
+Второй абзац демонстрирует работу со специальными символами.
+В LaTeX нужно экранировать следующие символы: \$, \&, \%, \#, \_. 
+Пример использования неразрывного пробела --- Д.~С.~Кулябов.
+\end{document}
