@@ -1,0 +1,32 @@
+{
+  "name": "sciwrite",
+  "version": "1.2.0",
+  "description": "git clone --recursive https://github.com/yamadharma/course-directory-student-template.git",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "cz",
+    "release": "standard-version"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrShogun/study_2025-2026_sci-wri.git"
+  },
+  "keywords": [],
+  "author": "Dmitry Nikolaev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrShogun/study_2025-2026_sci-wri/issues"
+  },
+  "homepage": "https://github.com/MrShogun/study_2025-2026_sci-wri#readme",
+  "devDependencies": {
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.5.0"
+  }
+}
