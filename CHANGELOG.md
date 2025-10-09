@@ -1,3 +1,15 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## 1.3.0 (2025-10-09)
+
+
+### Features
+
+* lab03 execution ([dbcfefb](https://github.com/MrShogun/study_2025-2026_sci-wri/commit/dbcfefb2db8856b0c5f7836e50932a9e661e5980))
+* **main:** make course structure ([5d2687e](https://github.com/MrShogun/study_2025-2026_sci-wri/commit/5d2687e074dec646bfeb4abd086c468d4d91023b))
+
 ## [1.4.2](https://github.com/yamadharma/course-directory-student-template/compare/v1.4.1...v1.4.2) (2025-09-06)
 
 
@@ -196,7 +208,3 @@
 * **make:** add help to Makefile ([8015255](https://github.com/yamadharma/course-directory-student-template/commit/8015255d434b2a4735f0ea406ef99be4d68f8b6f))
 * **make:** add list of courses ([395c5da](https://github.com/yamadharma/course-directory-student-template/commit/395c5da4de44d792ee5ceb45f255004a0e0f7e30))
 * **script:** add script for auto-determine name of course ([10a8b58](https://github.com/yamadharma/course-directory-student-template/commit/10a8b58ccf830930dc6daf15d664582ce87913e3))
-
-
-
-
