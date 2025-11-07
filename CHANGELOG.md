@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.4.0...v1.5.0) (2025-11-07)
+
+
+### Features
+
+* **new laboratory work (№5):** executing laboratory work №5 on LaTeX table formatting ([24cff79](https://github.com/MrShogun/study_2025-2026_sci-wri/commit/24cff7917ab8eed9a6ab2359f8311586acfe7f7f))
+
 ## [1.4.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.3.0...v1.4.0) (2025-10-23)
 
 
