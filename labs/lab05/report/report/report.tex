@@ -1,0 +1,666 @@
+\documentclass[a4paper, 12pt]{article}
+
+% Для многоязычности
+\usepackage{polyglossia}
+\setdefaultlanguage[indentfirst=true,spelling=modern]{russian}
+\setotherlanguage{english}
+% Юникодные математические символы
+\usepackage{unicode-math}
+
+\usepackage{amsmath}
+
+\usepackage{fontspec}
+% Подключаем шрифт. Шрифт есть в дистрибутиве TeXLive
+\setmainfont[Ligatures={Common,TeX},Scale=0.94]{IBM Plex Serif}
+\setromanfont[Ligatures={Common,TeX},Scale=0.94]{IBM Plex Serif}
+\setsansfont[Ligatures={Common,TeX},Scale=MatchLowercase,Scale=0.94]{IBM Plex Sans}
+\setmonofont[Scale=MatchLowercase,Scale=0.94,FakeStretch=0.9]{IBM Plex Mono}
+
+% Математический шрифт
+\setmathfont{STIX Two Math}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage[backend=biber,sorting=none]{biblatex}
+\addbibresource{bib/cite.bib} % Убедитесь, что файл bib/cite.bib существует
+
+% Пакеты для работы с таблицами из лабораторной
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{threeparttable}
+\usepackage{ragged2e}
+
+% Пакет для подключения картинок
+\usepackage{graphicx}
+% Пакет для ссылок (hyper references)
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{black!5},
+    commentstyle=\color{green!40!black},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{purple},
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    breaklines=true,
+    numberstyle=\tiny\color{black!60},
+    frame=tb,
+    framerule=0pt,
+}
+\lstset{style=mystyle}
+
+\usepackage{float}
+\usepackage{lipsum} % Для генерации текста-"рыбы"
+
+\renewcommand{\figurename}{Рис.}
+\renewcommand{\tablename}{Таблица}
+\renewcommand{\lstlistingname}{Листинг}
+\renewcommand{\contentsname}{Содержание}
+\renewcommand{\listfigurename}{Список иллюстраций}
+\renewcommand{\listtablename}{Список таблиц}
+\renewcommand{\lstlistlistingname}{Список листингов}
+
+\usepackage{geometry}
+\geometry{left=2.5cm, right=1.5cm, top=2cm, bottom=2cm}
+
+\author{Николаев Дмитрий Иванович, НПМмд-02-24}
+\title{Лабораторная работа №5: Создание и форматирование таблиц в \LaTeX \\ Computer Skills for Scientific Writing}
+\date{\today}
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+  \pagebreak
+
+  \listoffigures
+  \lstlistoflistings
+  \pagebreak
+
+\section{Цель работы}
+Целью данной работы является изучение и практическое освоение средств создания и форматирования таблиц в \LaTeX.
+
+\section{Теоретическое введение}
+Таблицы являются неотъемлемой частью научных публикаций, позволяя структурированно и наглядно представлять данные. \LaTeX\ предлагает достаточно гибкие инструменты для создания таблиц, начиная от простого окружения \texttt{tabular} и заканчивая специализированными пакетами для решения сложных задач верстки.
+
+Основным инструментом является окружение \texttt{tabular}, функциональность которого значительно расширяется пакетом \texttt{array}. Для создания таблиц профессионального качества, соответствующих стандартам академической типографики, используется пакет \texttt{booktabs}, который предоставляет команды для горизонтальных линий различной толщины и отбивки, при этом не поощряя использование вертикальных линий. Для выравнивания числовых данных по десятичному разделителю используется пакет \texttt{siunitx}. Задачи верстки таблиц заданной ширины решаются с помощью окружения \texttt{tabular*} и пакета \texttt{tabularx}. Для создания таблиц, которые могут занимать несколько страниц, используется пакет \texttt{longtable}.
+
+В данной работе будут рассмотрены все эти и другие инструменты, что позволит создавать таблицы практически любой сложности.
+
+\section{Выполнение лабораторной работы}
+В процессе выполнения работы был создан файл \texttt{lab5.tex}, в который последовательно добавлялись примеры из раздела 5 пособия~\cite{lab} и решения упражнений из пункта 5.14.
+
+\subsection{Часть 1: Воспроизведение примеров из пособия}
+
+\paragraph{1.1. Базовая таблица.}
+Для начала была создана простейшая таблица с помощью окружения \texttt{tabular}. Пакет \texttt{array} был подключен для расширения функциональности. В преамбуле таблицы могут быть использованы спецификаторы колонок: \texttt{l} (left), \texttt{c} (center), \texttt{r} (right). Код приведён в \lstlistingname~\ref{lst:part1_1}, результат на \figurename~\ref{fig:001}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Базовая таблица с выравниванием l, c, r}, label=lst:part1_1]
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{array}
+\begin{document}
+
+\begin{tabular}{lll}
+Animal & Food & Size \\
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/1.png}
+\caption{Результат создания базовой таблицы}
+\label{fig:001}
+\end{figure}
+
+\paragraph{1.2. Таблицы с длинным текстом.}
+Для ячеек, содержащих длинный текст, был использован тип колонки \texttt{p\{width\}}, который автоматически переносит строки, форматируя текст в параграф заданной ширины. Код показан в \lstlistingname~\ref{lst:part1_2}, результат~---~на \figurename~\ref{fig:002}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Использование колонки типа p\{width\}}, label=lst:part1_2]
+\begin{tabular}{cl}
+Animal & Description \\
+dog & The dog is a member of the genus Canis, which forms
+part of the wolf-like canids, and is the most widely abundant
+terrestrial carnivore. \\
+cat & The cat is a domestic species of small carnivorous
+mammal. It is the only domesticated species in the family Felidae and
+is often referred to as the domestic cat to distinguish it from the
+wild members of the family. \\
+\end{tabular}
+
+\hfill\break
+
+\begin{tabular}{cp{9cm}}
+Animal & Description \\
+dog & The dog is a member of the genus Canis, which forms
+part of the wolf-like canids, and is the most widely abundant
+terrestrial carnivore. \\
+cat & The cat is a domestic species of small carnivorous
+mammal. It is the only domesticated species in the family Felidae and
+is often referred to as the domestic cat to distinguish it from the
+wild members of the family. \\
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.9\textwidth]{image/2.png}
+\caption{Таблицы без/с автоматическим переносом текста}
+\label{fig:002}
+\end{figure}
+
+\paragraph{1.3. Компактное определение колонок.}
+Синтаксис \texttt{*\{num\}\{string\}} был применен для компактного определения нескольких одинаковых колонок, что упрощает преамбулу таблицы. Код~---~в \lstlistingname~\ref{lst:part1_3}, результа~---~на \figurename~\ref{fig:003}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Компактная запись преамбулы таблицы}, label=lst:part1_3]
+\begin{tabular}{*{3}{l}}
+Animal & Food & Size \\
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/3.png}
+\caption{Таблица, созданная с помощью синтаксиса *\{3\}\{l\}}
+\label{fig:003}
+\end{figure}
+
+\paragraph{1.4. Профессиональные таблицы с booktabs.}
+Для создания таблиц профессионального вида был подключен пакет \texttt{booktabs}. Команды \texttt{\textbackslash toprule}, \texttt{\textbackslash midrule} и \texttt{\textbackslash bottomrule} использовались для создания горизонтальных линий. Команда \texttt{\textbackslash cmidrule\{col1-col2\}} позволила создавать линии, охватывающие лишь некоторые колонки, а её опции \texttt{(l)}, \texttt{(r)}, \texttt{(rl)} — "подрезать" линию слева или справа. Команда \texttt{\textbackslash addlinespace} добавила небольшой вертикальный отступ для улучшения читаемости. Коды показаны в \lstlistingname~\ref{lst:part1_4_1} и \ref{lst:part1_4_2}, результаты~---~на \figurename~\ref{fig:004} и \ref{fig:005}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Таблица с использованием booktabs}, label=lst:part1_4_1]
+\usepackage{booktabs}
+...
+\begin{tabular}{lll}
+\toprule
+Animal & Food & Size \\
+\midrule
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\bottomrule
+\end{tabular}
+
+\hfill\break
+\hfill\break
+
+\begin{tabular}{lll}
+\toprule
+Animal & Food & Size \\
+\midrule
+dog & meat & medium \\
+\cmidrule{1-2}
+horse & hay & large \\
+\cmidrule{1-1}
+\cmidrule{3-3}
+frog & flies & small \\
+\bottomrule
+\end{tabular}
+
+\hfill\break
+\hfill\break
+
+\begin{tabular}{lll}
+\toprule
+Animal & Food & Size \\
+\midrule
+dog & meat & medium \\
+\cmidrule{1-2}
+horse & hay & large \\
+\cmidrule(r){1-1}
+\cmidrule(rl){2-2}
+\cmidrule(l){3-3}
+frog & flies & small \\
+\bottomrule
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/4.png}
+\caption{Профессионально оформленные таблицы с booktabs}
+\label{fig:004}
+\end{figure}
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Использование \textbackslash addlinespace}, label=lst:part1_4_2]
+\begin{tabular}{cp{9cm}}
+\toprule
+Animal & Description \\
+\midrule
+dog & The dog is a member of the genus Canis, which forms
+part of the wolf-like canids, and is the most widely abundant
+terrestrial carnivore. \\
+\addlinespace
+cat & The cat is a domestic species of small carnivorous
+mammal. It is the only domesticated species in the family Felidae and
+is often referred to as the domestic cat to distinguish it from the
+wild members of the family. \\
+\bottomrule
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.9\textwidth]{image/5.png}
+\caption{Добавление вертикального отступа с \textbackslash addlinespace}
+\label{fig:005}
+\end{figure}
+
+\paragraph{1.5. Объединение ячеек.}
+Горизонтальное объединение ячеек было выполнено с помощью команды \texttt{\textbackslash multicolumn\{num\}\{align\}\{content\}}. Эта же команда была использована для переопределения выравнивания в отдельных ячейках заголовка. Вертикальное объединение было сымитировано путем оставления ячеек в последующих строках пустыми. Код~---~в \lstlistingname~\ref{lst:part1_5}, результат~---~на \figurename~\ref{fig:006}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Горизонтальное и вертикальное объединение ячеек}, label=lst:part1_5]
+% Горизонтальное объединение
+\begin{tabular}{lll}
+\toprule
+Animal & Food & Size \\
+\midrule
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+fuath & \multicolumn{2}{c}{unknown} \\
+\bottomrule
+\end{tabular}
+
+% Переопределение выравнивания в заголовке
+\begin{tabular}{lll}
+\toprule
+\multicolumn{1}{c}{Animal} & \multicolumn{1}{c}{Food} &
+\multicolumn{1}{c}{Size} \\
+\midrule
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+fuath & \multicolumn{2}{c}{unknown} \\
+\bottomrule
+\end{tabular}
+
+% Эмуляция вертикального объединения
+\begin{tabular}{lll}
+\toprule
+Group & Animal & Size \\
+\midrule
+herbivore & horse & large \\
+	& deer & medium \\
+	& rabbit & small \\
+\addlinespace
+carnivore & dog & medium \\
+	& cat & small \\
+	& lion & large \\
+\addlinespace
+omnivore & crow & small \\
+	& bear & large \\
+	& pig & medium \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{lll}
+\toprule
+Group & Animal & Size \\
+\midrule
+	& horse & large \\
+herbivore & deer & medium \\
+	& rabbit & small \\
+\addlinespace
+	& dog & medium \\
+carnivore & cat & small \\
+	& lion & large \\
+\addlinespace
+	& crow & small \\
+omnivore & bear & large \\
+	& pig & medium \\
+\bottomrule
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.45\textwidth]{image/6.png}
+\caption{Результат объединения ячеек}
+\label{fig:006}
+\end{figure}
+
+\paragraph{1.6. Стилизация колонок и управление отступами.}
+Для стилизации целой колонки (например, курсивом) были использованы токены \texttt{>\{\textbackslash itshape\}} и \texttt{<\{:\}} в преамбуле. Межколоночное пространство было изменено путем переопределения длины \texttt{\textbackslash tabcolsep} и с помощью токена \texttt{@\{...\}} для полной замены пробела на другой символ или отступ. Код~---~в \lstlistingname~\ref{lst:part1_6}, результат~---~на \figurename~\ref{fig:007}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Стилизация колонок и управление отступами}, label=lst:part1_6]
+% Стилизация первой колонки курсивом с двоеточием после
+\begin{tabular}{>{\itshape}l<{:} *{2}{l}}
+\toprule
+Animal & Food & Size \\
+\midrule
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\bottomrule
+\end{tabular}
+% Отмена стилизации для заголовка
+\begin{tabular}{>{\itshape}l<{:} *{2}{l}}
+\toprule
+\multicolumn{1}{l}{Animal} & Food & Size \\
+\midrule
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\bottomrule
+\end{tabular}
+% Удаление отступов с помощью @
+\begin{tabular}{l@{ : }l@{\hspace{2cm}}l}
+Animal & Food & Size \\
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\end{tabular}
+
+\hfill\break
+\hfill\break
+
+\begin{tabular}{l!{:}ll}
+Animal & Food & Size \\
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\end{tabular}
+
+\hfill\break
+\hfill\break
+
+\begin{tabular}{l|ll}
+Animal & Food & Size \\[2pt]
+dog & meat & medium \\
+horse & hay & large \\
+frog & flies & small \\
+\end{tabular}
+
+\hfill\break
+\hfill\break
+
+\begin{tabular}{@{} lll@{}} \toprule[2pt]
+Animal & Food & Size \\ \midrule[1pt]
+dog & meat & medium \\
+\cmidrule[0.5pt](r{1pt}l{1cm}){1-2}
+horse & hay & large \\
+frog & flies & small \\ \bottomrule[2pt]
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.5\textwidth]{image/7.png}
+\caption{Стилизованная таблица с измененными отступами}
+\label{fig:007}
+\end{figure}
+
+\paragraph{1.7. Выравнивание чисел и таблицы фиксированной ширины.}
+Пакет \texttt{siunitx} и его тип колонки \texttt{S} были использованы для выравнивания чисел по десятичному разделителю. Окружение \texttt{tabular*} с командой \texttt{\textbackslash extracolsep\{\textbackslash fill\}} позволило создать таблицу, растянутую на заданную ширину. Пакет \texttt{tabularx} с "резиновой" колонкой типа \texttt{X} решил ту же задачу более гибко. Код~---~в \lstlistingname~\ref{lst:part1_7}, результат~---~на \figurename~\ref{fig:008}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Выравнивание чисел и таблицы фиксированной ширины}, label=lst:part1_7]
+% Выравнивание чисел
+\usepackage{siunitx}
+\begin{tabular}{SS}
+\toprule
+{Values} & {More Values} \\
+\midrule
+1 & 2.3456 \\
+1.2 & 34.2345 \\
+-2.3 & 90.473 \\
+40 & 5642.5 \\
+5.3 & 1.2e3 \\
+0.2 & 1e4 \\
+\bottomrule
+\end{tabular}
+
+% Таблица фиксированной ширины (tabular*)
+\begin{center}
+\begin{tabular*}{.5\textwidth}{@{\extracolsep{\fill}}cc@{}}
+\hline
+A & B\\
+C & D\\
+\hline
+\end{tabular*}
+\end{center}
+
+\begin{center}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}cc@{}}
+\hline
+A & B\\
+C & D\\
+\hline
+\end{tabular*}
+\end{center}
+
+\hfill\break
+\hfill\break
+
+\begin{center}
+\begin{tabular}{lp{2cm}}
+\hline
+A & B B B B B B B B B B B B B B B B B B B B B B B B\\
+C & D D D D D D D\\
+\hline
+\end{tabular}
+\end{center}
+% "Резиновая" таблица (tabularx)
+\usepackage{tabularx}
+\begin{center}
+\begin{tabularx}{.5\textwidth}{lX}
+\hline
+A & B B B B B B B B B B B B B B B B B B B B B B B B\\
+C & D D D D D D D\\
+\hline
+\end{tabularx}
+\end{center}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{lX}
+\hline
+A & B B B B B B B B B B B B B B B B B B B B B B B B\\
+C & D D D D D D D\\
+\hline
+\end{tabularx}
+\end{center}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/8.png}
+\caption{Выравнивание чисел (слева), таблицы \texttt{tabular*} и \texttt{tabularx} (справа)}
+\label{fig:008}
+\end{figure}
+
+\paragraph{1.8. Многостраничные таблицы и сноски.}
+Пакет \texttt{longtable} был применен для создания таблицы, которая может переноситься на несколько страниц, с повторяющимися заголовками. Пакет \texttt{threeparttable} позволил добавить к таблице сноски, которые располагаются непосредственно под ней. Код~---~в \lstlistingname~\ref{lst:part1_8}, результат~---~на \figurename~\ref{fig:009}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Многостраничная таблица и таблица со сносками}, label=lst:part1_8]
+% Многостраничная таблица
+\usepackage{longtable}
+\begin{longtable}{cc}
+\multicolumn{2}{c}{A Long Table}\\
+Left Side & Right Side\\
+\hline
+\endhead
+\hline
+\endfoot
+aa & bb\\
+Entry & b\\
+a & b\\
+a & b\\
+a & b\\
+a & b\\
+a & bbb\\
+a & b\\
+a & b\\
+a & b\\
+a & b\\
+a & b\\
+a & b\\
+a & b b b b b b\\
+a & b b b b b\\
+a & b b\\
+A Wider Entry & b\\
+\end{longtable}
+
+% Таблица со сносками
+\usepackage{threeparttable}
+\begin{table}
+\begin{threeparttable}
+\caption{An Example}
+\begin{tabular}{ll}
+An entry & 42\tnote{1}\\
+Another entry & 24\tnote{2}\\
+\end{tabular}
+\begin{tablenotes}
+\item [1] the first note.
+\item [2] the second note.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.52\textwidth]{image/9.png}
+\caption{Пример таблицы со сносками}
+\label{fig:009}
+\end{figure}
+
+\paragraph{1.9. Прочие приемы форматирования.}
+Были изучены: верстка текста в узких колонках с пакетом \texttt{ragged2e}, определение нового типа колонки с \texttt{\textbackslash newcolumntype}, создание сложных ячеек с помощью вложенных окружений \texttt{tabular} и управление высотой строк командой \texttt{\textbackslash setlength\textbackslash extrarowheight}. Код~---~в \lstlistingname~\ref{lst:part1_9}, результат~---~на \figurename~\ref{fig:010}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Продвинутые приемы форматирования таблиц}, label=lst:part1_9]
+% Новый тип колонки
+\newcolumntype{B}{>{\bfseries}c}
+\begin{tabular}{Bcc}
+\toprule
+Test & \begin{tabular}{@{}c@{}}A \\ a \end{tabular} &
+\begin{tabular}{@{}c@{}}B \\ b\end{tabular} \\
+\midrule
+Content & is & here \\
+Content & is & here \\
+Content & is & here \\
+\bottomrule
+\end{tabular}
+
+% Вложенные таблицы
+\begin{tabular}{lcc}
+\toprule
+Test & \begin{tabular}[b]{@{}c@{}}A\\a\end{tabular} &
+\begin{tabular}[t]{@{}c@{}}B\\b\end{tabular} \\
+\midrule
+Content & is & here \\
+Content & is & here \\
+Content & is & here \\
+\bottomrule
+\end{tabular}
+
+% Увеличенная высота строки
+\setlength\extrarowheight{2pt}
+\begin{center}
+\begin{tabular}{cc}
+\hline
+Square& $x^2$\\
+\hline
+Cube& $x^3$\\
+\hline
+\end{tabular}
+\end{center}
+
+% Установление дополнительной высоты строк
+\begin{center}
+\setlength\extrarowheight{2pt}
+\begin{tabular}{cc}
+\hline
+Square& $x^2$\\
+\hline
+Cube& $x^3$\\
+\hline
+\end{tabular}
+\end{center}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/10.png}
+\caption{Таблица с вложенной таблицей в ячейке и увеличенной высотой строк}
+\label{fig:010}
+\end{figure}
+
+\subsection{Часть 2: Выполнение итоговых упражнений}
+
+\paragraph{2.1. Эксперименты с выравниванием.}
+Взяв за основу простейший пример таблицы, были исследованы различные типы выравнивания в колонках: `l`, `c` и `r`. Результат наглядно демонстрирует, как содержимое ячеек выравнивается по левому краю, по центру и по правому краю соответственно. Код~---~в \lstlistingname~\ref{lst:part2_1}, результат~---~на \figurename~\ref{fig:011}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Сравнение выравниваний l, c, r}, label=lst:part2_1]
+\begin{tabular}{lcr}
+  \toprule
+  Left-aligned & Centered & Right-aligned \\
+  \midrule
+  abc & abc & abc \\
+  a & a & a \\
+  abcdef & abcdef & abcdef \\
+  \bottomrule
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/11.png}
+\caption{Результат применения спецификаторов выравнивания l, c, r}
+\label{fig:011}
+\end{figure}
+
+\paragraph{2.2. Недостаточное количество элементов в строке.}
+Была создана строка, в которой указано меньше элементов, чем определено колонок. В итоге, \LaTeX\ успешно компилирует такую строку, оставляя недостающие ячейки пустыми. Ошибки не возникает. Это стандартное поведение, которое часто используется для имитации вертикального объединения ячеек. Код~---~в \lstlistingname~\ref{lst:part2_2}, результат~---~на \figurename~\ref{fig:012}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Строка с недостаточным количеством элементов}, label=lst:part2_2]
+\begin{tabular}{lll}
+  \toprule
+  Col 1 & Col 2 & Col 3 \\ \midrule
+  One & Two & Three \\
+  Four & Five \\ % <--- Здесь не хватает одного элемента
+  \bottomrule
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/12.png}
+\caption{Последняя ячейка в строке осталась пустой}
+\label{fig:012}
+\end{figure}
+
+\paragraph{2.3. Избыточное количество элементов в строке.}
+Была создана строка с большим количеством элементов, чем определено колонок. В итоге, компиляция прерывается с ошибкой \texttt{Extra alignment tab has been changed to \textbackslash cr}. \LaTeX\ сообщает, что встретил лишний разделитель колонок (\texttt{\&}) и не знает, что с ним делать, так как все определённые колонки уже заполнены. 
+
+\paragraph{2.4. Эксперимент с \texttt{\textbackslash multicolumn}.}
+Команда \texttt{\textbackslash multicolumn} была использована для объединения двух ячеек в заголовке таблицы. Это позволило создать более сложную иерархическую структуру шапки таблицы. Код~---~в \lstlistingname~\ref{lst:part2_4}, результат~---~на \figurename~\ref{fig:013}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Использование \textbackslash multicolumn для объединения ячеек}, label=lst:part2_4]
+\begin{tabular}{ccc}
+  \toprule
+  \multicolumn{2}{c}{Merged Header} & Single Header \\
+  \cmidrule(r){1-2}
+  Sub 1 & Sub 2 & Sub 3 \\
+  \midrule
+  A & B & C \\
+  D & E & F \\
+  \bottomrule
+\end{tabular}
+\end{lstlisting}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.8\textwidth]{image/13.png}
+\caption{Заголовок таблицы с объединенными ячейками}
+\label{fig:013}
+\end{figure}
+
+\section{Выводы}
+В ходе выполнения данной лабораторной работы были достигнуты следующие результаты:
+\begin{itemize}
+    \item Изучены и освоены базовые и продвинутые средства создания таблиц в \LaTeX, включая окружения \texttt{tabular}, \texttt{tabular*}, \texttt{tabularx} и \texttt{longtable}.
+    \item Получены практические навыки использования пакетов \texttt{array}, \texttt{booktabs}, \texttt{siunitx} и \texttt{threeparttable} для создания таблиц профессионального качества: с правильным выравниванием, управляемыми отступами, отсутствием "мусорных" линий и корректным оформлением сносок.
+    \item Было исследовано поведение \LaTeX\ при некорректном заполнении строк таблицы.
+    \item Закреплены навыки горизонтального объединения ячеек и создания сложных заголовков с помощью команды \texttt{\textbackslash multicolumn}.
+\end{itemize}
+
+\printbibliography
+  
+\end{document}

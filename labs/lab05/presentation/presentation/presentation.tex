@@ -1,0 +1,295 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{metropolis}
+\title{Лабораторная работа №5: Создание и форматирование таблиц в \LaTeX}
+\subtitle{Computer Skills for Scientific Writing}
+\author{Николаев Дмитрий Иванович, НПМмд--02-24}
+\institute{Российский университет дружбы народов имени Патриса Лумумбы}
+\date{\today}
+
+%\usepackage{polyglossia}
+%\setdefaultlanguage[spelling=modern]{russian}
+%\setotherlanguage{english}
+\usepackage{fontspec}
+%\setmainfont{Carlito}
+%\setsansfont{Carlito}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+% Исправленный вызов babel для лучшей совместимости с listings
+\usepackage[shorthands=off, main=russian]{babel}
+
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{booktabs} % Для красивых таблиц
+\usepackage{tabularx} % Для таблиц заданной ширины
+\usepackage{siunitx}  % Для выравнивания чисел
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{black!5},
+    commentstyle=\color{green!40!black},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{purple},
+    basicstyle=\tiny\ttfamily, % Уменьшаем шрифт для слайдов
+    numbers=left,
+    breaklines=true,
+    numberstyle=\tiny\color{black!60},
+    frame=tb,
+    framerule=0pt,
+}
+\lstset{style=mystyle}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Цели и задачи}
+\begin{frame}{Цель работы}
+    \begin{block}{Основная цель}
+        Изучить и практически освоить средства создания и форматирования таблиц в \LaTeX.
+    \end{block}
+    \begin{alertblock}{Ключевые задачи}
+    \begin{itemize}
+        \item Воспроизвести все примеры из раздела 5 учебного пособия.
+        \item Изучить базовые и продвинутые спецификаторы колонок.
+        \item Освоить пакет \texttt{booktabs} для создания таблиц профессионального вида.
+        \item Научиться объединять ячейки, стилизовать колонки и управлять отступами.
+        \item Изучить специализированные пакеты: \texttt{siunitx}, \texttt{tabularx}, \texttt{longtable}, \texttt{threeparttable}.
+        \item Выполнить практические упражнения для закрепления материала.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\section{Часть 1: Примеры из пособия}
+
+\begin{frame}[fragile]{1.1-1.4: Основы и профессиональное оформление (1/2)}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Код: Базовая таблица и \texttt{booktabs}}
+            \begin{lstlisting}[language=tex]
+% Обычная таблица
+\begin{tabular}{lll}
+  Animal & Food & Size \\
+  ...
+\end{tabular}
+
+% Таблица с длинным текстом
+\begin{tabular}{cl} ... \end{tabular}
+\begin{tabular}{cp{9cm}} ... \end{tabular}
+
+% Сокращённый синтаксис
+\begin{tabular}{*{3}{l}}
+
+% Профессиональная таблица
+\usepackage{booktabs}
+\begin{tabular}{lll}
+  \toprule
+  Animal & Food & Size \\
+  \midrule
+  dog & meat & medium \\
+  \cmidrule{1-2}
+  horse & hay & large \\
+  \bottomrule
+\end{tabular}
+            \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \begin{block}{Результат}
+            \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/1.png}
+            \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/2.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{1.1-1.4: Основы и профессиональное оформление (2/2)}
+	\begin{columns}[T]
+		\begin{column}{0.45\textwidth}
+       \includegraphics[width=\linewidth,height=1.0\textheight,keepaspectratio]{image/3.png}
+		\end{column}
+		\begin{column}{0.45\textwidth}
+       \includegraphics[width=\linewidth,height=1.0\textheight,keepaspectratio]{image/4.png}
+		\end{column}
+    \end{columns}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{1.5-1.6: Объединение ячеек и стилизация колонок}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Код: \texttt{\textbackslash multicolumn} и \texttt{>\{\}}}
+            \begin{lstlisting}[language=tex]
+% Объединение 2-х ячеек
+fuath & \multicolumn{2}{c}{unknown} \\
+% Переопределение выравнивания в заголовке
+\multicolumn{1}{c}{Animal} & \multicolumn{1}{c}{Food} &
+\multicolumn{1}{c}{Size}
+% Эмуляция верт. объединения
+herbivore & horse & large \\
+ & deer & medium \\
+% Стилизация первой колонки
+% курсивом с двоеточием
+\begin{tabular}{>{\itshape}l<{:} ll}
+\toprule
+% Отмена стиля для заголовка
+\multicolumn{1}{c}{Animal} & ... \\
+\midrule
+dog & meat & medium \\
+% Удаление отступов с помощью @
+\begin{tabular}{l@{ : }l@{\hspace{2cm}}l}
+% Добавление отступа и текста с помощью !
+\begin{tabular}{l!{:}ll}
+% Разная ширина гор. линий
+\begin{tabular}{@{} lll@{}} \toprule[2pt]
+\end{tabular}
+            \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \begin{block}{Результат}
+                \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{image/6.png}
+                \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{image/7.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{1.7: Выравнивание чисел и таблицы фиксированной ширины}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Код: \texttt{siunitx}, \texttt{tabular*}, \texttt{tabularx}}
+            \begin{lstlisting}[language=tex]
+% Выравнивание по десятичному знаку
+\usepackage{siunitx}
+\begin{tabular}{SS}
+\toprule {Values} & {More Values} \\ \midrule
+1 & 2.3456 \\ 1.2 & 34.2345 \\
+\bottomrule \end{tabular}
+
+% Фикс. ширина (растягивает пробелы)
+\begin{tabular*}{0.5\textwidth}
+  {@{\extracolsep{\fill}}cc@{}}
+  A & B \\ C & D \\
+\end{tabular*}
+
+% Фикс. ширина ("резиновая" колонка X)
+\usepackage{tabularx}
+\begin{tabularx}{0.5\textwidth}{lX}
+ A & Long text here...\\
+\end{tabularx}
+            \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Результат}
+                \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/8.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]{1.8-1.9: Многостраничные таблицы, сноски и вложенность}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Код: \texttt{longtable}, \texttt{threeparttable}}
+            \begin{lstlisting}[language=tex]
+% Для таблиц > 1 страницы
+\usepackage{longtable}
+\begin{longtable}{cc} ... \end{longtable}
+% Таблица со сносками
+\usepackage{threeparttable}
+\begin{table}
+\begin{threeparttable}
+ \caption{...}
+ \begin{tabular}{l}
+  Entry\tnote{1} \\
+ \end{tabular}
+ \begin{tablenotes}
+  \item[1] Note text.
+ \end{tablenotes}
+\end{threeparttable}
+\end{table}
+% Вложенные таблицы
+\begin{tabular}{lc}
+ Test & \begin{tabular}{c}A\\a\end{tabular}
+\end{tabular}
+% Установление дополнительной высоты строк
+\begin{center}
+\setlength\extrarowheight{2pt}
+            \end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Результат}
+                \includegraphics[width=0.6\linewidth,height=0.9\textheight,keepaspectratio]{image/9.png}
+                \includegraphics[width=0.60\linewidth,height=0.9\textheight,keepaspectratio]{image/10.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Часть 2: Итоговые упражнения}
+
+\begin{frame}[fragile]{Выполнение упражнений (1/2)}
+    \begin{alertblock}{Основные наблюдения из экспериментов}
+       \begin{itemize}
+           \item \textbf{Спецификаторы \texttt{l}, \texttt{c}, \texttt{r}} корректно выравнивают содержимое по левому/правому краю и центру.
+           \item \textbf{Меньше ячеек, чем колонок:} \LaTeX\ компилируется без ошибок, оставляя недостающие ячейки пустыми.
+           \item \textbf{Больше ячеек, чем колонок:} Компиляция прерывается с ошибкой \texttt{Extra alignment tab...}.
+           \item \textbf{\texttt{\textbackslash multicolumn}} эффективно объединяет ячейки и позволяет создавать сложные заголовки.
+       \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{Выполнение упражнений (2/2)}
+    \begin{columns}[T]
+	\begin{column}{0.5\textwidth}
+		\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{image/11.png}
+		\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{image/12.png}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+		\begin{block}{Код (\texttt{\textbackslash multicolumn})}
+            \begin{lstlisting}[language=tex]
+\begin{tabular}{ccc}
+  \toprule
+  \multicolumn{2}{c}{Merged Header}
+    & Single \\
+  \cmidrule(r){1-2}
+  Sub 1 & Sub 2 & Sub 3 \\
+  \midrule
+  A & B & C \\
+  D & E & F \\
+  \bottomrule
+\end{tabular}
+            \end{lstlisting}
+            \end{block}
+                \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/13.png}
+	\end{column}
+    \end{columns}
+\end{frame}
+
+
+\section{Выводы}
+\begin{frame}{Выводы}
+    \begin{block}{Освоенные навыки}
+    \begin{itemize}
+        \item Создание таблиц различной сложности, от базовых до многостраничных.
+        \item Профессиональное оформление с помощью \texttt{booktabs} (горизонтальные линии, отступы).
+        \item Точное выравнивание числовых данных с помощью \texttt{siunitx}.
+        \item Верстка таблиц заданной ширины с помощью \texttt{tabular*} и \texttt{tabularx}.
+        \item Создание таблиц со сносками (\texttt{threeparttable}).
+        \item Применение продвинутых техник: стилизация колонок, вложенные таблицы, управление высотой строк.
+    \end{itemize}
+    \end{block}
+\end{frame}
+
+\end{document}
