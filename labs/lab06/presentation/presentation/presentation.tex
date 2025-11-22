@@ -1,0 +1,219 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{metropolis}
+\title{Лабораторная работа №6: Работа с библиографией и цитированием в \LaTeX}
+\subtitle{Computer Skills for Scientific Writing}
+\author{Николаев Дмитрий Иванович, НПМмд--02-24}
+\institute{Российский университет дружбы народов имени Патриса Лумумбы}
+\date{\today}
+
+%\usepackage{polyglossia}
+%\setdefaultlanguage[spelling=modern]{russian}
+%\setotherlanguage{english}
+\usepackage{fontspec}
+%\setmainfont{Carlito}
+%\setsansfont{Carlito}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+% Исправленный вызов babel для лучшей совместимости с listings
+\usepackage[shorthands=off, main=russian]{babel}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+% Настройка отображения кода
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{black!5},
+    commentstyle=\color{green!40!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{purple},
+    basicstyle=\tiny\ttfamily,
+    numbers=left,
+    breaklines=true,
+    numberstyle=\tiny\color{black!60},
+    frame=tb,
+    framerule=0pt,
+}
+\lstset{style=mystyle}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Введение}
+
+\begin{frame}{Цели и задачи}
+    \begin{block}{Цель работы}
+        Изучить и практически освоить средства автоматизированной работы с библиографией и цитированием в \LaTeX.
+    \end{block}
+    \begin{alertblock}{Задачи}
+    \begin{itemize}
+        \item Создать библиографическую базу данных (\texttt{.bib}).
+        \item Освоить рабочий процесс \textbf{BibTeX} с пакетом \texttt{natbib}.
+        \item Освоить рабочий процесс \textbf{Biber} с пакетом \texttt{biblatex}.
+        \item Научиться создавать гиперссылки в списке литературы.
+        \item Выполнить упражнения по добавлению источников и смене стилей цитирования.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\section{Часть 1: Примеры из пособия}
+
+\begin{frame}[fragile]{1.1. Создание базы данных (.bib)}
+    \begin{columns}[T]
+        \begin{column}{0.7\textwidth}
+            \textbf{Файл learnlatex.bib} содержит записи о публикациях.
+            \begin{block}{Пример записи книги}
+\begin{lstlisting}[language=tex]
+@article{Thomas2008,
+  author = {Thomas, Christine M. and Liu, Tianbiao and Hall, Michael B. and Darensbourg, Marcetta Y.},
+  title = {Series of Mixed Valent {Fe(II)Fe(I)} Complexes That Model the {H(OX)} State of [{FeFe}]Hydrogenase: Redox Properties, Density-Functional Theory Investigation, and Reactivity with Extrinsic {CO}},
+  journal = {Inorg. Chem.},
+  year = {2008},
+  volume = {47},
+  number = {15},
+  pages = {7009-7024},
+  doi = {10.1021/ic800654a},
+}
+@book{Graham1995,
+  author = {Ronald L. Graham and 
+            Donald E. Knuth and 
+            Oren Patashnik},
+  title = {Concrete Mathematics},
+  publisher = {Addison-Wesley},
+  year = {1995},
+}
+\end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \vspace{1em}
+            Каждая запись имеет уникальный ключ (например, \texttt{Graham1995}), который используется для ссылки в тексте, а также набор полей с информацией об источнике.
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{1.2. BibTeX и пакет natbib}
+    \begin{block}{Код (lab6.tex)}
+\begin{lstlisting}[language=tex]
+\usepackage{natbib}
+...
+Text citation: \citet{Graham1995}.
+Parenthetical: \citep{Thomas2008}.
+
+\bibliographystyle{plainnat}
+\bibliography{learnlatex} % без расширения .bib
+\end{lstlisting}
+    \end{block}
+    \begin{alertblock}{Компиляция}
+    \texttt{pdflatex} $\to$ \texttt{bibtex} $\to$ \texttt{pdflatex} $\to$ \texttt{pdflatex}
+    \end{alertblock}
+    \begin{center}
+        \includegraphics[width=0.7\textwidth,height=0.25\textheight,keepaspectratio]{image/1.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{1.3. Biber и пакет biblatex}
+    \begin{block}{Код (lab6.tex)}
+\begin{lstlisting}[language=tex]
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{learnlatex.bib} % с расширением .bib
+...
+Citation: \autocite{Graham1995}.
+Text citation: \textcite{Thomas2008}.
+
+\printbibliography
+\end{lstlisting}
+    \end{block}
+    \begin{alertblock}{Компиляция}
+    \texttt{pdflatex} $\to$ \texttt{biber} $\to$ \texttt{pdflatex}
+    \end{alertblock}
+    \begin{center}
+        \includegraphics[width=0.7\textwidth,height=0.25\textheight,keepaspectratio]{image/2.png}
+    \end{center}
+\end{frame}
+
+\section{Часть 2: Итоговые упражнения}
+
+\begin{frame}[fragile]{2.1. Добавление нового источника}
+    \begin{columns}[T]
+        \begin{column}{0.6\textwidth}
+            \begin{block}{Новая запись в .bib}
+\begin{lstlisting}
+@book{Knuth1984,
+    title = {The TeXbook},
+    publisher = {Addison-Wesley},
+    year = {1984},
+    author = {Donald E. Knuth},
+    address = {Boston, MA, USA}
+}
+\end{lstlisting}
+            \end{block}
+             \begin{block}{Вызов в .tex}
+\begin{lstlisting}
+\autocite{Knuth1984}
+\end{lstlisting}
+            \end{block}
+\begin{block}{Добавление кликабельных гиперссылок}
+\begin{lstlisting}
+\usepackage{hyperref}
+\end{lstlisting}
+\end{block}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \textbf{Результат:}
+            \vspace{0.5em}
+            
+            \includegraphics[width=\linewidth]{image/3.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{2.2. Ошибки и стили}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \textbf{Ссылка на несуществующий ключ:}
+            \begin{lstlisting}
+\cite{NonExistent}
+            \end{lstlisting}
+            Приводит к появлению предупреждений (\texttt{undefined citation}) и жирного ключа в PDF (или знаков \textbf{??}).
+            
+            \vspace{1em}
+            \includegraphics[width=0.8\linewidth]{image/4.png}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Смена стиля на числовой:}
+            \begin{lstlisting}
+% Для biblatex
+\usepackage[style=numeric]{biblatex}
+% Для natbib
+\usepackage[numbers]{natbib}
+            \end{lstlisting}
+            Результат: \texttt{[1]} вместо \texttt{(Author, Year)}.
+            
+            \vspace{0.5em}
+            \includegraphics[width=0.9\linewidth]{image/5.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Заключение}
+
+\begin{frame}{Выводы}
+    \begin{block}{Результаты работы}
+    \begin{itemize}
+        \item Успешно воспроизведены примеры работы с библиографией.
+        \item Проведено сравнение двух основных подходов: \textbf{BibTeX} (классический, жесткий) и \textbf{biblatex} (современный, гибкий).
+        \item Освоена последовательность компиляции, необходимая для корректного отображения ссылок и списка литературы.
+        \item Изучены способы настройки стилей цитирования (текстовый, числовой) и добавления гиперссылок.
+    \end{itemize}
+    \end{block}
+\end{frame}
+
+
+
+\end{document}
