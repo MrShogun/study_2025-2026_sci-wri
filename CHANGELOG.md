@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.5.0...v1.6.0) (2025-11-22)
+
+
+### Features
+
+* **new laboratory work (№6):** executing laboratory work №6 on LaTeX bibliography ([aa43bc4](https://github.com/MrShogun/study_2025-2026_sci-wri/commit/aa43bc4585cebc5c8de5839f14ceff02e0000123))
+
 ## [1.5.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.4.0...v1.5.0) (2025-11-07)
 
 
