@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.6.0...v1.7.0) (2025-12-05)
+
+
+### Features
+
+* **new laboratory work №7:** execution laboratory work №7 on LaTeX presentation and poster document ([afee8ae](https://github.com/MrShogun/study_2025-2026_sci-wri/commit/afee8ae4ebdecf009fb2a663d9920612e12f006e))
+
 ## [1.6.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.5.0...v1.6.0) (2025-11-22)
 
 
