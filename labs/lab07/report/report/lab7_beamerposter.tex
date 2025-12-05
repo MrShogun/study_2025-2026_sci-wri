@@ -1,0 +1,36 @@
+\documentclass[xcolor={svgnames}]{beamer}
+\usepackage[orientation=portrait,size=a0,scale=1.4]{beamerposter}
+
+\title{Look I'm making a poster}
+\author{Ostap S. Bender}
+\institute{RUDN University}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\begin{columns}
+    \begin{column}{.33\textwidth}
+	Content for the first column...
+    \end{column}
+\begin{column}{.33\textwidth}
+        Content for the second column...
+    \end{column}
+    
+    \begin{column}{.33\textwidth}
+        Content for the third column...
+    \end{column}
+\end{columns}
+
+%\newline
+
+\begin{columns}
+    \begin{column}{.7\textwidth}
+	Content for the first column... Here follows some regular text, \color{BlueViolet} from now on the text has changed colour,
+    \end{column}
+\begin{column}{.3\textwidth}
+        Content for the second column... \color{Black} and then we are back to normal.
+    \end{column}
+\end{columns}
+
+\end{frame}
+\end{document}

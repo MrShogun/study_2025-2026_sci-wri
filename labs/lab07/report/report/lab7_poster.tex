@@ -1,0 +1,23 @@
+\documentclass[a0, portrait]{a0poster}
+\usepackage{multicol}
+\columnsep=100pt
+\usepackage{graphicx}
+\usepackage{caption}
+
+\begin{document}
+% Ручное создание заголовка через minipage
+\begin{minipage}{.7\textwidth}
+\VeryHuge Look I'm making a poster \\ [0.75cm]
+\Large Ostap S. Bender \\
+\Large RUDN University
+\end{minipage}
+\begin{multicols}{2} % Две колонки
+The text will be automatically split up into two columns.
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{example-image.png}
+    \captionof{figure}{Test picture}
+\end{center}
+\end{multicols}
+
+\end{document}

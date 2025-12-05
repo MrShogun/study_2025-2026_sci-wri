@@ -1,0 +1,76 @@
+\documentclass{beamer}
+
+% Тема и цветовая схема
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+
+\title{Алгоритмы на графах: Поиск в ширину}
+\subtitle{Основы алгоритмов}
+\author{Дмитрий Николаев}
+\institute{РУДН}
+\date{\today}
+
+\begin{document}
+
+% Слайд 1: Титульный
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Слайд 2: Определение (Block)
+\begin{frame}{Что такое Граф?}
+    \begin{block}{Определение}
+        Граф $G$ --- это пара $(V, E)$, где $V$ --- множество вершин, а $E$ --- множество ребер, соединяющих эти вершины.
+    \end{block}
+    
+    \begin{alertblock}{Важно}
+        Графы могут быть ориентированными и неориентированными.
+    \end{alertblock}
+\end{frame}
+
+% Слайд 3: Алгоритм BFS (Pause)
+\begin{frame}{Алгоритм поиска в ширину (BFS)}
+    Идея алгоритма:
+    \begin{enumerate}
+        \item Поместить начальную вершину в очередь.
+        \pause
+        \item Извлечь вершину из очереди и пометить как посещенную.
+        \pause
+        \item Добавить всех непосещенных соседей в очередь.
+        \pause
+        \item Повторять, пока очередь не пуста.
+    \end{enumerate}
+\end{frame}
+
+% Слайд 4: Сложность (Uncover)
+\begin{frame}{Вычислительная сложность}
+    Обозначим:
+    \begin{itemize}
+        \item $|V|$ --- количество вершин.
+        \item $|E|$ --- количество ребер.
+    \end{itemize}
+    
+    Сложность алгоритма BFS:
+    \begin{align*}
+        O(\uncover<2->{|V|} \uncover<3->{+ |E|})
+    \end{align*}
+    
+    \vspace{1cm}
+    \uncover<4->{\textbf{Вывод:} Алгоритм линеен относительно размера графа.}
+\end{frame}
+
+% Слайд 5: Заключение
+\begin{frame}{Заключение}
+    Поиск в ширину является базовым алгоритмом для:
+    \begin{itemize}
+        \item Поиска кратчайшего пути в невзвешенном графе.
+        \item Поиска компонент связности.
+    \end{itemize}
+    \vspace{1cm}
+    \centering \LARGE Спасибо за внимание!
+\end{frame}
+
+\end{document}

@@ -1,0 +1,55 @@
+\documentclass[25pt, a0paper, portrait]{tikzposter}
+
+\usepackage[english,russian]{babel}
+\usepackage{caption} % Для captionof
+\usepackage{graphicx}
+
+% Настройки темы
+\usetheme{Autumn}
+\usecolorstyle{Spain}
+
+\title{Алгоритм Поиска в Ширину (BFS)}
+\author{Николаев Дмитрий}
+\institute{Российский университет дружбы народов}
+
+\begin{document}
+
+\maketitle
+
+% Верхний блок на всю ширину
+\block{Введение}{
+    Поиск в ширину (Breadth-First Search, BFS) --- один из основных методов обхода графа. Он позволяет найти кратчайший путь в невзвешенном графе.
+}
+
+\begin{columns}
+    \column{0.33}
+    \block{Определения}{
+        \textbf{\textcolor{red}{Граф}} $G=(V,E)$ состоит из множества вершин $V$ и множества ребер $E$.
+        
+        \vspace{1em}
+        BFS использует структуру данных \textit{Очередь} (FIFO).
+    }
+    
+    \column{0.33}
+    \block{Визуализация}{
+        \begin{center}
+            \includegraphics[width=0.8\linewidth]{BFS_Graph.png}
+            \captionof{figure}{Пример обхода графа}
+        \end{center}
+    }
+    
+    \column{0.33}
+    \block{Сложность}{
+        Временная сложность алгоритма составляет:
+        \[ O(|V| + |E|) \]
+        где $|V|$ --- число вершин, $|E|$ --- число ребер.
+        
+        \note[targetoffsetx=0cm, targetoffsety=-2cm, width=6cm]{Линейная сложность!}
+    }
+\end{columns}
+
+\block{Применение}{
+    BFS используется в GPS-навигаторах, социальных сетях (поиск друзей) и сетевых протоколах.
+}
+
+\end{document}

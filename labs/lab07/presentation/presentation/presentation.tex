@@ -1,39 +1,51 @@
 \documentclass[aspectratio=169]{beamer}
 
 \usetheme{metropolis}
-\title{Лабораторная работа №5: Создание и форматирование таблиц в \LaTeX}
+\title{Лабораторная работа №7: Создание презентаций и постеров в \LaTeX}
 \subtitle{Computer Skills for Scientific Writing}
 \author{Николаев Дмитрий Иванович, НПМмд--02-24}
 \institute{Российский университет дружбы народов имени Патриса Лумумбы}
 \date{\today}
 
-%\usepackage{polyglossia}
-%\setdefaultlanguage[spelling=modern]{russian}
-%\setotherlanguage{english}
-\usepackage{fontspec}
-%\setmainfont{Carlito}
-%\setsansfont{Carlito}
+% \usepackage{polyglossia}
+% \setdefaultlanguage[spelling=modern]{russian}
+% \setotherlanguage{english}
+%\usepackage{fontspec}
+% \setmainfont{Carlito}
+% \setsansfont{Carlito}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T2A]{fontenc}
 % Исправленный вызов babel для лучшей совместимости с listings
+%\usepackage[shorthands=off, main=russian]{babel}
+
+
+%\usepackage{graphicx}
+%\usepackage{listings}
+%\usepackage{xcolor}
+%\usepackage{amsmath}
+%\usepackage{booktabs} % Для красивых таблиц
+%\usepackage{tabularx} % Для таблиц заданной ширины
+%\usepackage{siunitx}  % Для выравнивания чисел
+
+% Настройки языка и шрифтов
+\usepackage{fontspec}
 \usepackage[shorthands=off, main=russian]{babel}
 
-
+% Необходимые пакеты
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{amsmath}
-\usepackage{booktabs} % Для красивых таблиц
-\usepackage{tabularx} % Для таблиц заданной ширины
-\usepackage{siunitx}  % Для выравнивания чисел
+\usepackage{booktabs}
 
+
+% Настройка оформления кода
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{black!5},
     commentstyle=\color{green!40!black},
     keywordstyle=\color{magenta},
     stringstyle=\color{purple},
-    basicstyle=\tiny\ttfamily, % Уменьшаем шрифт для слайдов
+    basicstyle=\tiny\ttfamily,
     numbers=left,
     breaklines=true,
     numberstyle=\tiny\color{black!60},
@@ -47,248 +59,251 @@
 \frame{\titlepage}
 
 \section{Цели и задачи}
+
 \begin{frame}{Цель работы}
-    \begin{block}{Основная цель}
-        Изучить и практически освоить средства создания и форматирования таблиц в \LaTeX.
+    \begin{block}{Цель}
+        Освоить инструменты \LaTeX\ для создания визуальных материалов: презентаций (класс \texttt{beamer}) и научных постеров.
     \end{block}
-    \begin{alertblock}{Ключевые задачи}
+
+    \begin{alertblock}{Задачи}
+        \begin{itemize}
+            \item Воспроизвести примеры создания слайдов: структура, блоки, паузы, оверлеи.
+            \item Изучить и сравнить 3 метода создания постеров: \texttt{a0poster}, \texttt{beamerposter}, \texttt{tikzposter}.
+            \item Выполнить творческое задание: создать собственную презентацию и постер на выбранную тему.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\section{Часть 1: Возможности Beamer}
+
+\begin{frame}[fragile]{Базовая структура и Блоки}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+% ВАЖНО: \begin и \end прижаты к левому краю!
+\begin{lstlisting}[language=tex, caption=Код слайда с блоком]
+\documentclass{beamer}
+\usetheme{Warsaw}
+\begin{document}
+\\begin{frame}{Title}
+    Text slide...
+    \begin{block}{Important}
+        Text inside the block
+    \end{block}
+\\end{frame}
+\end{document}
+\end{lstlisting}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Результат:}\\
+            \includegraphics[width=\linewidth,height=0.6\textheight,keepaspectratio]{image/2.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Динамика: Паузы и Uncover}
+    Для последовательного вывода информации используются команды \texttt{\textbackslash pause} и \texttt{\textbackslash uncover}.
+    
+\begin{lstlisting}[language=tex, caption=Пример uncover в формулах]
+\begin{align*}
+    f'(x) \uncover<2->{&= g'(x)h(x) + \dots} \\
+          \uncover<3->{&= \dots}
+\end{align*}
+\end{lstlisting}
+    
+    \begin{center}
+        \includegraphics[width=0.6\linewidth]{image/4.png}
+    \end{center}
+\end{frame}
+
+\section{Часть 2: Сравнение постеров}
+
+\begin{frame}{Обзор методов}
+    \begin{table}
+        \small
+        \centering
+        \begin{tabular}{l l l}
+            \toprule
+            Пакет & Базовый класс & Особенности \\
+            \midrule
+            \textbf{a0poster} & Article & Ручная верстка (\texttt{minipage}, \texttt{multicol}) \\
+            \textbf{beamerposter} & Beamer & Использование тем Beamer, блоки \\
+            \textbf{tikzposter} & TikZ & Современный блочный дизайн \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Метод 1: a0poster}
+    \begin{columns}[T]
+        \begin{column}{0.4\textwidth}
+\begin{lstlisting}[language=tex]
+\documentclass[a0]{a0poster}
+\usepackage{multicol}
+\begin{document}
+ % Заголовок вручную
+ \begin{minipage}{\textwidth}
+   \Huge Title
+ \end{minipage}
+ % Контент в колонках
+ \begin{multicols}{2}
+   Text content...
+   \begin{center}
+     \includegraphics{...}
+     \captionof{figure}{...}
+   \end{center}
+ \end{multicols}
+\end{document}
+\end{lstlisting}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{image/6.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Метод 2: beamerposter}
+    \begin{columns}[T]
+        \begin{column}{0.4\textwidth}
+\begin{lstlisting}[language=tex]
+\documentclass{beamer}
+\usepackage[scale=1.4]{beamerposter}
+\usetheme{Berlin}
+
+\begin{document}
+\\begin{frame}
+  \begin{columns}
+    \begin{column}{.48\textwidth}
+      \begin{block}{Block 1}
+         Text...
+      \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+       Text...
+    \end{column}
+  \end{columns}
+\\end{frame}
+\end{document}
+\end{lstlisting}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{image/7.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Метод 3: tikzposter}
+    \begin{columns}[T]
+        \begin{column}{0.4\textwidth}
+\begin{lstlisting}[language=tex]
+\documentclass{tikzposter}
+\usetheme{Desert}
+\title{Poster Title}
+
+\begin{document}
+ \maketitle % Авто-заголовок
+ \block{Introduction}{Text...}
+ 
+ \begin{columns}
+  \column{0.5}
+  \block{Left}{Content}
+  \column{0.5}
+  \block{Right}{Content}
+ \end{columns}
+\end{document}
+\end{lstlisting}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.7\textheight,keepaspectratio]{image/8.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Часть 3: Собственный проект}
+
+\begin{frame}[fragile]{Собственная презентация (BFS)}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \textbf{Тема:} Алгоритм Поиска в Ширину.
+\begin{lstlisting}[language=tex]
+\documentclass{beamer}
+\usetheme{Madrid}
+\begin{document}
+\\begin{frame}{Вычислительная сложность}
+    Обозначим:
     \begin{itemize}
-        \item Воспроизвести все примеры из раздела 5 учебного пособия.
-        \item Изучить базовые и продвинутые спецификаторы колонок.
-        \item Освоить пакет \texttt{booktabs} для создания таблиц профессионального вида.
-        \item Научиться объединять ячейки, стилизовать колонки и управлять отступами.
-        \item Изучить специализированные пакеты: \texttt{siunitx}, \texttt{tabularx}, \texttt{longtable}, \texttt{threeparttable}.
-        \item Выполнить практические упражнения для закрепления материала.
+        \item $|V|$ --- количество вершин.
+        \item $|E|$ --- количество ребер.
     \end{itemize}
-    \end{alertblock}
-\end{frame}
-
-\section{Часть 1: Примеры из пособия}
-
-\begin{frame}[fragile]{1.1-1.4: Основы и профессиональное оформление (1/2)}
-    \begin{columns}[T]
-        \begin{column}{0.45\textwidth}
-            \begin{block}{Код: Базовая таблица и \texttt{booktabs}}
-            \begin{lstlisting}[language=tex]
-% Обычная таблица
-\begin{tabular}{lll}
-  Animal & Food & Size \\
-  ...
-\end{tabular}
-
-% Таблица с длинным текстом
-\begin{tabular}{cl} ... \end{tabular}
-\begin{tabular}{cp{9cm}} ... \end{tabular}
-
-% Сокращённый синтаксис
-\begin{tabular}{*{3}{l}}
-
-% Профессиональная таблица
-\usepackage{booktabs}
-\begin{tabular}{lll}
-  \toprule
-  Animal & Food & Size \\
-  \midrule
-  dog & meat & medium \\
-  \cmidrule{1-2}
-  horse & hay & large \\
-  \bottomrule
-\end{tabular}
-            \end{lstlisting}
-            \end{block}
+    
+    Сложность алгоритма BFS:
+    \begin{align*}
+        O(\uncover<2->{|V|} \uncover<3->{+ |E|})
+    \end{align*}
+    
+    \vspace{1cm}
+    \uncover<4->{\textbf{Вывод:} Алгоритм линеен относительно размера графа.}
+\\end{frame}
+\end{document}
+\end{lstlisting}
         \end{column}
         \begin{column}{0.55\textwidth}
-            \begin{block}{Результат}
-            \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/1.png}
-            \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/2.png}
-            \end{block}
+            \centering
+            \includegraphics[width=\linewidth,keepaspectratio]{image/10.png}
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{1.1-1.4: Основы и профессиональное оформление (2/2)}
-	\begin{columns}[T]
-		\begin{column}{0.45\textwidth}
-       \includegraphics[width=\linewidth,height=1.0\textheight,keepaspectratio]{image/3.png}
-		\end{column}
-		\begin{column}{0.45\textwidth}
-       \includegraphics[width=\linewidth,height=1.0\textheight,keepaspectratio]{image/4.png}
-		\end{column}
-    \end{columns}
-\end{frame}
-
-
-
-\begin{frame}[fragile]{1.5-1.6: Объединение ячеек и стилизация колонок}
+\begin{frame}[fragile]{Собственный постер (tikzposter)}
     \begin{columns}[T]
-        \begin{column}{0.45\textwidth}
-            \begin{block}{Код: \texttt{\textbackslash multicolumn} и \texttt{>\{\}}}
-            \begin{lstlisting}[language=tex]
-% Объединение 2-х ячеек
-fuath & \multicolumn{2}{c}{unknown} \\
-% Переопределение выравнивания в заголовке
-\multicolumn{1}{c}{Animal} & \multicolumn{1}{c}{Food} &
-\multicolumn{1}{c}{Size}
-% Эмуляция верт. объединения
-herbivore & horse & large \\
- & deer & medium \\
-% Стилизация первой колонки
-% курсивом с двоеточием
-\begin{tabular}{>{\itshape}l<{:} ll}
-\toprule
-% Отмена стиля для заголовка
-\multicolumn{1}{c}{Animal} & ... \\
-\midrule
-dog & meat & medium \\
-% Удаление отступов с помощью @
-\begin{tabular}{l@{ : }l@{\hspace{2cm}}l}
-% Добавление отступа и текста с помощью !
-\begin{tabular}{l!{:}ll}
-% Разная ширина гор. линий
-\begin{tabular}{@{} lll@{}} \toprule[2pt]
-\end{tabular}
-            \end{lstlisting}
-            \end{block}
+        \begin{column}{0.4\textwidth}
+\begin{lstlisting}[language=tex]
+\documentclass[25pt, a0paper, portrait]{tikzposter}
+\usetheme{Autumn}
+\usecolorstyle{Spain}
+\begin{columns}
+    \column{0.33}
+    \block{Определения}{
+        \textbf{\textcolor{red}{Граф}} $G=(V,E)$ состоит из множества вершин $V$ и множества ребер $E$.
+        \vspace{1em}
+        BFS использует структуру данных \textit{Очередь} (FIFO).
+    }
+    \column{0.33}
+    \block{Визуализация}{
+        \begin{center}
+            \includegraphics[width=0.8\linewidth]{BFS_Graph.png}
+            \captionof{figure}{Пример обхода графа}
+        \end{center}
+    }
+    \column{0.33}
+    \block{Сложность}{
+        Временная сложность алгоритма составляет:
+        \[ O(|V| + |E|) \]
+        где $|V|$ --- число вершин, $|E|$ --- число ребер.
+        \note[targetoffsetx=0cm, targetoffsety=-2cm, width=6cm]{Линейная сложность!}
+    }
+\end{columns}
+\end{document}
+\end{lstlisting}
         \end{column}
-        \begin{column}{0.55\textwidth}
-            \begin{block}{Результат}
-                \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{image/6.png}
-                \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{image/7.png}
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-
-
-\begin{frame}[fragile]{1.7: Выравнивание чисел и таблицы фиксированной ширины}
-    \begin{columns}[T]
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Код: \texttt{siunitx}, \texttt{tabular*}, \texttt{tabularx}}
-            \begin{lstlisting}[language=tex]
-% Выравнивание по десятичному знаку
-\usepackage{siunitx}
-\begin{tabular}{SS}
-\toprule {Values} & {More Values} \\ \midrule
-1 & 2.3456 \\ 1.2 & 34.2345 \\
-\bottomrule \end{tabular}
-
-% Фикс. ширина (растягивает пробелы)
-\begin{tabular*}{0.5\textwidth}
-  {@{\extracolsep{\fill}}cc@{}}
-  A & B \\ C & D \\
-\end{tabular*}
-
-% Фикс. ширина ("резиновая" колонка X)
-\usepackage{tabularx}
-\begin{tabularx}{0.5\textwidth}{lX}
- A & Long text here...\\
-\end{tabularx}
-            \end{lstlisting}
-            \end{block}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Результат}
-                \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/8.png}
-            \end{block}
+        \begin{column}{0.6\textwidth}
+            \centering
+            \includegraphics[width=\linewidth,height=0.75\textheight,keepaspectratio]{image/11.png}
         \end{column}
     \end{columns}
 \end{frame}
 
+\section{Заключение}
 
-\begin{frame}[fragile]{1.8-1.9: Многостраничные таблицы, сноски и вложенность}
-    \begin{columns}[T]
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Код: \texttt{longtable}, \texttt{threeparttable}}
-            \begin{lstlisting}[language=tex]
-% Для таблиц > 1 страницы
-\usepackage{longtable}
-\begin{longtable}{cc} ... \end{longtable}
-% Таблица со сносками
-\usepackage{threeparttable}
-\begin{table}
-\begin{threeparttable}
- \caption{...}
- \begin{tabular}{l}
-  Entry\tnote{1} \\
- \end{tabular}
- \begin{tablenotes}
-  \item[1] Note text.
- \end{tablenotes}
-\end{threeparttable}
-\end{table}
-% Вложенные таблицы
-\begin{tabular}{lc}
- Test & \begin{tabular}{c}A\\a\end{tabular}
-\end{tabular}
-% Установление дополнительной высоты строк
-\begin{center}
-\setlength\extrarowheight{2pt}
-            \end{lstlisting}
-            \end{block}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Результат}
-                \includegraphics[width=0.6\linewidth,height=0.9\textheight,keepaspectratio]{image/9.png}
-                \includegraphics[width=0.60\linewidth,height=0.9\textheight,keepaspectratio]{image/10.png}
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-\section{Часть 2: Итоговые упражнения}
-
-\begin{frame}[fragile]{Выполнение упражнений (1/2)}
-    \begin{alertblock}{Основные наблюдения из экспериментов}
-       \begin{itemize}
-           \item \textbf{Спецификаторы \texttt{l}, \texttt{c}, \texttt{r}} корректно выравнивают содержимое по левому/правому краю и центру.
-           \item \textbf{Меньше ячеек, чем колонок:} \LaTeX\ компилируется без ошибок, оставляя недостающие ячейки пустыми.
-           \item \textbf{Больше ячеек, чем колонок:} Компиляция прерывается с ошибкой \texttt{Extra alignment tab...}.
-           \item \textbf{\texttt{\textbackslash multicolumn}} эффективно объединяет ячейки и позволяет создавать сложные заголовки.
-       \end{itemize}
-    \end{alertblock}
-\end{frame}
-
-
-\begin{frame}[fragile]{Выполнение упражнений (2/2)}
-    \begin{columns}[T]
-	\begin{column}{0.5\textwidth}
-		\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{image/11.png}
-		\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{image/12.png}
-	\end{column}
-	\begin{column}{0.5\textwidth}
-		\begin{block}{Код (\texttt{\textbackslash multicolumn})}
-            \begin{lstlisting}[language=tex]
-\begin{tabular}{ccc}
-  \toprule
-  \multicolumn{2}{c}{Merged Header}
-    & Single \\
-  \cmidrule(r){1-2}
-  Sub 1 & Sub 2 & Sub 3 \\
-  \midrule
-  A & B & C \\
-  D & E & F \\
-  \bottomrule
-\end{tabular}
-            \end{lstlisting}
-            \end{block}
-                \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/13.png}
-	\end{column}
-    \end{columns}
-\end{frame}
-
-
-\section{Выводы}
 \begin{frame}{Выводы}
-    \begin{block}{Освоенные навыки}
-    \begin{itemize}
-        \item Создание таблиц различной сложности, от базовых до многостраничных.
-        \item Профессиональное оформление с помощью \texttt{booktabs} (горизонтальные линии, отступы).
-        \item Точное выравнивание числовых данных с помощью \texttt{siunitx}.
-        \item Верстка таблиц заданной ширины с помощью \texttt{tabular*} и \texttt{tabularx}.
-        \item Создание таблиц со сносками (\texttt{threeparttable}).
-        \item Применение продвинутых техник: стилизация колонок, вложенные таблицы, управление высотой строк.
-    \end{itemize}
+    \begin{block}{Результаты}
+        \begin{itemize}
+            \item Получены навыки создания профессиональных презентаций с динамическим контентом в \texttt{beamer}.
+            \item Проведено сравнение трех методов верстки постеров. \texttt{tikzposter} признан наиболее эффективным для быстрой визуализации благодаря встроенным темам и блочной структуре.
+            \item Подготовлен постер и презентация по теме "Поиск в ширину (BFS)".
+        \end{itemize}
     \end{block}
 \end{frame}
 

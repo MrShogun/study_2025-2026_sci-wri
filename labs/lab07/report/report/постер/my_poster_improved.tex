@@ -1,0 +1,324 @@
+\documentclass[25pt, a0paper, portrait]{tikzposter}
+
+% --- ШРИФТЫ И ЯЗЫК ---
+\usepackage{fontspec}
+\usepackage[shorthands=off, main=russian]{babel}
+
+% Системные шрифты
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+% --- ПАКЕТЫ ---
+\usepackage{multicol}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{ragged2e} 
+
+% --- ГРАФИКА TIKZ ---
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shapes, positioning, automata, fit, calc, shadows, backgrounds, matrix} 
+
+% --- НАСТРОЙКИ ТЕМЫ ---
+\usetheme{Board}
+\usecolorstyle{Britain}
+\tikzposterlatexaffectionproofoff
+
+% Настройка алгоритмов
+\floatname{algorithm}{Алгоритм}
+\renewcommand{\algorithmicrequire}{\textbf{Вход:}}
+\renewcommand{\algorithmicensure}{\textbf{Выход:}}
+\algrenewcommand\algorithmiccomment[1]{\hfill \textcolor{darkgray}{\scriptsize \# #1}}
+
+% --- МЕТАДАННЫЕ ---
+\title{\parbox{0.9\linewidth}{\centering Сравнительный анализ алгоритмов: Поиск в Ширину (BFS) и Глубину (DFS)}}
+\author{Николаев Дмитрий Иванович}
+\institute{Российский университет дружбы народов имени Патриса Лумумбы (РУДН)}
+
+\begin{document}
+
+\maketitle
+
+% -------------------------------------------------------------------------
+% 3 КОЛОНКИ
+% -------------------------------------------------------------------------
+\begin{columns}
+
+    % ======================= ЛЕВАЯ КОЛОНКА (BFS) =======================
+    \column{0.33}
+
+    \block{1. Поиск в ширину (BFS)}{
+        \justifying
+        \textbf{Идея:} "Волна". Алгоритм исследует граф слоями. Сначала посещаются все соседи текущей вершины, затем соседи соседей.
+        
+        \textbf{Применение:} Поиск кратчайшего пути в невзвешенных графах, анализ социальных сетей (теория шести рукопожатий).
+    }
+
+    \block{2. Алгоритм BFS}{
+        \begin{minipage}{\linewidth}
+        \begin{algorithm}[H]
+        \caption{BFS Iterative}
+        \begin{algorithmic}[1]
+            \Require Граф $G$, старт $s$
+            \State $Q.push(s)$; $visited[s] \gets true$
+            \While{$Q$ не пуста}
+                \State $u \gets Q.dequeue()$
+                \ForAll{$v \in Adj[u]$}
+                    \If{!$visited[v]$}
+                        \State $visited[v] \gets true$
+                        \State $d[v] \gets d[u] + 1$
+                        \State $Q.enqueue(v)$
+                    \EndIf
+                \EndFor
+            \EndWhile
+        \end{algorithmic}
+        \end{algorithm}
+        \end{minipage}
+    }
+    
+    \block{3. Визуализация BFS (Слои)}{
+        Вершины сгруппированы по расстоянию от $s$. Фон показывает "волны" поиска.
+        \vspace{1.5cm}
+        \begin{center}
+        \begin{tikzpicture}[
+            >=stealth, auto, node distance=3.5cm, on grid,
+            state/.style={circle, draw=black, very thick, fill=white, minimum size=1.4cm, font=\bfseries\Large},
+            tree_edge/.style={->, line width=2.5pt, blue!80!black},
+            cross_edge/.style={-, dashed, line width=1.5pt, gray!70}
+        ]
+            % --- КООРДИНАТЫ (Единые для обоих графов) ---
+            \coordinate (PosS) at (0,0);
+            \coordinate (PosA) at (-3,-4);
+            \coordinate (PosB) at (3,-4);
+            \coordinate (PosC) at (-5,-8);
+            \coordinate (PosD) at (0,-8);
+            \coordinate (PosE) at (5,-8);
+            \coordinate (PosF) at (0,-12);
+
+            % --- ФОН СЛОЕВ (Исправлено положение) ---
+            % L0
+            \fill[red!15] (PosS) circle (2cm);
+            \node[red!80!black, font=\bfseries] at (2.2, 0) {L0 (d=0)};
+            
+            % L1
+            \fill[orange!15] (0,-4) ellipse (6.5cm and 2.2cm);
+            \node[orange!80!black, font=\bfseries] at (6, -3) {L1 (d=1)};
+            
+            % L2
+            \fill[yellow!15] (0,-8) ellipse (7.5cm and 2.5cm);
+            \node[yellow!80!black, font=\bfseries] at (6.5, -6.5) {L2 (d=2)};
+            
+            % L3
+            \fill[green!15] (PosF) ellipse (4cm and 1.8cm);
+            \node[green!60!black, font=\bfseries] at (3.5, -12) {L3 (d=3)};
+
+            % --- ВЕРШИНЫ ---
+            \node[state, fill=red!30] (s) at (PosS) {s};
+            \node[state, fill=orange!30] (a) at (PosA) {a};
+            \node[state, fill=orange!30] (b) at (PosB) {b};
+            \node[state, fill=yellow!30] (c) at (PosC) {c};
+            \node[state, fill=yellow!30] (d) at (PosD) {d};
+            \node[state, fill=yellow!30] (e) at (PosE) {e};
+            \node[state, fill=green!30] (f) at (PosF) {f};
+            
+            % --- РЕБРА (Дерево BFS - широкое) ---
+            \draw[tree_edge] (s) -- (a);
+            \draw[tree_edge] (s) -- (b);
+            \draw[tree_edge] (a) -- (c);
+            \draw[tree_edge] (a) -- (d);
+            \draw[tree_edge] (b) -- (e);
+            \draw[tree_edge] (d) -- (f);
+            
+            % Поперечные ребра
+            \draw[cross_edge] (b) -- (d);
+            \draw[cross_edge] (c) -- (d);
+            \draw[cross_edge] (e) -- (f);
+        \end{tikzpicture}
+        \end{center}
+    }
+
+    % ======================= ЦЕНТРАЛЬНАЯ КОЛОНКА =======================
+    \column{0.33}
+
+    \block{4. Структура данных: Очередь}{
+        Состояние очереди $Q$ в момент, когда слой L1 (a, b) обработан, а L2 добавляется.
+        \vspace{1cm}
+        \begin{center}
+        \begin{tikzpicture}
+            \matrix [matrix of nodes, 
+                     nodes={draw, minimum size=1.6cm, anchor=center, font=\bfseries\Large, fill=white}, 
+                     column sep=-\pgflinewidth, 
+                     row sep=-\pgflinewidth,
+                     ampersand replacement=\&] (queue) {
+                \textbf{Out} \& a \& b \& c \& d \& e \& \textbf{In} \\
+            };
+            
+            % Подписи СНИЗУ (без наслоений)
+            \node[below=0.3cm of queue-1-2, font=\small, align=center] {Old\\(d=1)};
+            \node[below=0.3cm of queue-1-3, font=\small, align=center] {Old\\(d=1)};
+            \node[below=0.3cm of queue-1-4, font=\small, color=blue, align=center] {New\\(d=2)};
+            \node[below=0.3cm of queue-1-5, font=\small, color=blue, align=center] {New\\(d=2)};
+            \node[below=0.3cm of queue-1-6, font=\small, color=blue, align=center] {New\\(d=2)};
+            
+            % Стрелки СВЕРХУ (чтобы не мешать тексту)
+            \draw[<-, ultra thick, red] (queue-1-2.north) ++(0,0.5) -- (queue-1-2.north) node[midway, right, font=\small] {pop()};
+            \draw[->, ultra thick, green!60!black] (queue-1-6.north) ++(0,0.5) -- (queue-1-6.north) node[midway, left, font=\small] {push()};
+        \end{tikzpicture}
+        \end{center}
+        
+        \vspace{0.5cm}
+        \textbf{FIFO (First-In First-Out):} Гарантирует, что вершины с $d=k$ выйдут раньше, чем вершины с $d=k+1$.
+    }
+
+    \block{5. Сравнение BFS и DFS}{
+        \centering
+        \begin{tabular}{r | l | l}
+             & \textbf{BFS (Ширина)} & \textbf{DFS (Глубина)} \\
+            \hline
+            \textbf{Структура} & \textcolor{blue}{Queue (Очередь)} & \textcolor{red}{Stack (Стек)} \\
+            \hline
+            \textbf{Порядок} & Слой за слоем & Вглубь до упора \\
+            \hline
+            \textbf{Путь} & \textbf{Кратчайший} & Случайный (длинный) \\
+            \hline
+            \textbf{Память} & $O(|V|)$ (ширина) & $O(h)$ (глубина) \\
+            \hline
+            \textbf{Сложность} & $O(V+E)$ & $O(V+E)$ \\
+        \end{tabular}
+    }
+
+    \block{6. Математическая база}{
+        \justifying
+        \textbf{Теорема (Корректность BFS):} 
+        Пусть $\delta(s, v)$ --- кратчайшее расстояние от $s$ до $v$. BFS вычисляет значения $d[v]$ так, что $d[v] = \delta(s, v)$ для всех $v \in V$.
+        
+        \textbf{Доказательство (через инвариант):} 
+        Значения $d$ в очереди не убывают: если $Q = \langle v_1, \dots, v_k \rangle$, то $d[v_1] \le d[v_2] \le \dots \le d[v_k]$ и $d[v_k] \le d[v_1] + 1$. При извлечении $u$ и добавлении соседа $v$, мы ставим $d[v] = d[u] + 1$, сохраняя порядок слоев.
+    }
+    
+    % Заметка (сдвинута влево, чтобы не перекрывать)
+    \note[targetoffsetx=-2cm, targetoffsety=-2cm, width=10cm, rotate=4, angle=-45, radius=8cm, connection, roundedcorners=15]{В BFS очередь хранит "активный фронт" волны!}
+
+    % ======================= ПРАВАЯ КОЛОНКА (DFS) =======================
+    \column{0.33}
+
+    \block{7. Поиск в глубину (DFS)}{
+        \justifying
+        \textbf{Идея:} "Лабиринт". Идем по ребру как можно дальше. Если зашли в тупик --- возвращаемся назад (backtrack).
+        
+        \textbf{Применение:} Топологическая сортировка, поиск циклов, компонент сильной связности, проверка на двудольность.
+    }
+
+    \block{8. Алгоритм DFS}{
+        \begin{minipage}{\linewidth}
+        \begin{algorithm}[H]
+        \caption{DFS Recursive}
+        \begin{algorithmic}[1]
+            \Require Граф $G$, вершина $u$
+            \State $visited[u] \gets true$
+            \ForAll{$v \in Adj[u]$}
+                \If{!$visited[v]$}
+                    \State $\pi[v] \gets u$
+                    \State \Call{DFS}{$G, v$}
+                \EndIf
+            \EndFor
+        \end{algorithmic}
+        \end{algorithm}
+        \end{minipage}
+    }
+
+    \block{9. Визуализация DFS (Вглубь)}{
+        Тот же граф, но порядок обхода другой. Цвет показывает время посещения (1 $\to$ 7).
+        \vspace{1.5cm}
+        \begin{center}
+        \begin{tikzpicture}[
+            >=stealth, auto, node distance=3.5cm, on grid,
+            state/.style={circle, draw=black, very thick, minimum size=1.4cm, font=\bfseries\Large, text=white},
+            tree_edge/.style={->, line width=2.5pt, red!80!black},
+            back_edge/.style={-, dashed, line width=1.5pt, gray!70}
+        ]
+            % --- КООРДИНАТЫ (Идентичные BFS) ---
+            \coordinate (PosS) at (0,0);
+            \coordinate (PosA) at (-3,-4);
+            \coordinate (PosB) at (3,-4);
+            \coordinate (PosC) at (-5,-8);
+            \coordinate (PosD) at (0,-8);
+            \coordinate (PosE) at (5,-8);
+            \coordinate (PosF) at (0,-12);
+
+            % --- ВЕРШИНЫ (Цвет показывает время входа) ---
+            % Порядок DFS: s(1)->a(2)->c(3)->d(4)->f(5)->b(6)->e(7)
+            % Градиент от Красного (старт) к Синему (финиш)
+            \node[state, fill=red] (s) at (PosS) {s\small(1)};
+            \node[state, fill=red!70!blue] (a) at (PosA) {a\small(2)};
+            \node[state, fill=blue!30!red] (c) at (PosC) {c\small(3)};
+            \node[state, fill=blue!50!red] (d) at (PosD) {d\small(4)};
+            \node[state, fill=blue!70!red] (f) at (PosF) {f\small(5)};
+            \node[state, fill=blue!90!red] (b) at (PosB) {b\small(6)};
+            \node[state, fill=blue] (e) at (PosE) {e\small(7)};
+            
+            % --- РЕБРА (Дерево DFS - узкое и длинное) ---
+            % s -> a
+            \draw[tree_edge] (s) -- (a);
+            % a -> c (тупик)
+            \draw[tree_edge] (a) -- (c);
+            % backtrack a -> d
+            \draw[tree_edge] (a) -- (d);
+            % d -> f (тупик)
+            \draw[tree_edge] (d) -- (f);
+            % backtrack d -> b (через ребро d-b, если граф неориент)
+            % ИЛИ backtrack a -> s -> b. 
+            % Допустим граф неориентированный: из d идем в b (сосед)
+            \draw[tree_edge] (d) -- (b); 
+            % b -> e
+            \draw[tree_edge] (b) -- (e);
+            
+            % Остальные ребра (Back edges)
+            \draw[back_edge] (s) -- (b); % b посещена позже из d
+            \draw[back_edge] (c) -- (d);
+            \draw[back_edge] (f) -- (e);
+        \end{tikzpicture}
+        \end{center}
+        \vspace{0.5cm}
+        \textbf{Легенда:} Цифры (1..7) --- порядок посещения. Красные стрелки --- путь рекурсии.
+    }
+    
+    % Заметка (сдвинута влево)
+    \note[targetoffsetx=-5cm, targetoffsety=0.5cm, width=9cm, rotate=-3, angle=130, radius=7cm, connection, roundedcorners=15]{Дерево DFS получается глубоким и извилистым, в отличие от BFS.}
+
+\end{columns}
+
+\block{10. Глубокий анализ: Алгебра и Топология}{
+    \begin{multicols}{2}
+        \textbf{1. Матричная интерпретация BFS}
+        
+        Пусть $A$ --- матрица смежности графа. Количество путей длины $k$ между вершинами $i$ и $j$ равно $(A^k)_{ij}$.
+        Расстояние в BFS можно определить через степени матрицы в булевой алгебре (или $(+, \times) \to (\min, +)$ полукольце):
+        \[ d(s, v) = \min \{ k \in \mathbb{N} \mid (A^k)_{sv} > 0 \} \]
+        Это свойство используется в алгоритмах на GPGPU (параллельные вычисления), где матричное умножение эффективно распараллеливается.
+        
+        \columnbreak
+        
+        \textbf{2. Теорема о скобочной структуре DFS}
+        
+        Для любых двух вершин $u$ и $v$ отрезки времени их обработки $[entry[u], exit[u]]$ и $[entry[v], exit[v]]$ либо не пересекаются, либо один строго вложен в другой.
+        
+        \textbf{Классификация ребер $(u, v)$ при DFS:}
+        \begin{itemize}
+            \item \textbf{Tree Edge:} $v$ открыта из $u$ (белая).
+            \item \textbf{Back Edge:} $v$ --- предок $u$ (серая). $\implies$ Цикл!
+            \item \textbf{Forward Edge:} $v$ --- потомок $u$ (черная).
+            \item \textbf{Cross Edge:} $v$ не предок и не потомок (черная).
+        \end{itemize}
+    \end{multicols}
+}
+
+\block{Резюме}{
+    Понимание разницы между BFS и DFS критически важно для Computer Science. BFS идеален для поиска кратчайших путей и работы со слоистыми структурами. DFS незаменим, когда нужно исследовать всё пространство состояний или найти сложные связности (циклы, мосты). Оба алгоритма имеют линейную сложность, но совершенно разную философию обхода.
+}
+
+\end{document}
