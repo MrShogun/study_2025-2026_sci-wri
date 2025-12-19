@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.7.0...v1.8.0) (2025-12-19)
+
+
+### Features
+
+* **new laboratory work №8::** execution laboratory work №8 on LaTeX TikZ picture and graph creation ([10662ae](https://github.com/MrShogun/study_2025-2026_sci-wri/commit/10662ae6f1a9823a181d44b2c6fed6f8c86982eb))
+
 ## [1.7.0](https://github.com/MrShogun/study_2025-2026_sci-wri/compare/v1.6.0...v1.7.0) (2025-12-05)
 
 
