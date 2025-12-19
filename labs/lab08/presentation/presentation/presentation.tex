@@ -1,7 +1,7 @@
 \documentclass[aspectratio=169]{beamer}
 
 \usetheme{metropolis}
-\title{Лабораторная работа №5: Создание и форматирование таблиц в \LaTeX}
+\title{Лабораторная работа №8: Создание диаграмм и рисунков с помощью TikZ в \LaTeX}
 \subtitle{Computer Skills for Scientific Writing}
 \author{Николаев Дмитрий Иванович, НПМмд--02-24}
 \institute{Российский университет дружбы народов имени Патриса Лумумбы}
@@ -31,14 +31,15 @@
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{black!5},
     commentstyle=\color{green!40!black},
-    keywordstyle=\color{magenta},
+    keywordstyle=\color{blue},
     stringstyle=\color{purple},
-    basicstyle=\tiny\ttfamily, % Уменьшаем шрифт для слайдов
+    basicstyle=\tiny\ttfamily,
     numbers=left,
     breaklines=true,
     numberstyle=\tiny\color{black!60},
     frame=tb,
     framerule=0pt,
+    keepspaces=true,
 }
 \lstset{style=mystyle}
 
@@ -47,190 +48,202 @@
 \frame{\titlepage}
 
 \section{Цели и задачи}
+
 \begin{frame}{Цель работы}
     \begin{block}{Основная цель}
-        Изучить и практически освоить средства создания и форматирования таблиц в \LaTeX.
+        Досконально изучить и практически освоить средства создания векторной графики в \LaTeX\ с помощью пакета TikZ.
     \end{block}
-    \begin{alertblock}{Ключевые задачи}
-    \begin{itemize}
-        \item Воспроизвести все примеры из раздела 5 учебного пособия.
-        \item Изучить базовые и продвинутые спецификаторы колонок.
-        \item Освоить пакет \texttt{booktabs} для создания таблиц профессионального вида.
-        \item Научиться объединять ячейки, стилизовать колонки и управлять отступами.
-        \item Изучить специализированные пакеты: \texttt{siunitx}, \texttt{tabularx}, \texttt{longtable}, \texttt{threeparttable}.
-        \item Выполнить практические упражнения для закрепления материала.
-    \end{itemize}
+    \begin{alertblock}{Задачи}
+        \begin{itemize}
+            \item Воспроизвести примеры рисования линий, кривых и узлов из пособия.
+            \item Освоить построение графиков функций и использование циклов.
+            \item Изучить библиотеку \texttt{tikz.math} для построения рекурсивных фракталов.
+            \item Выполнить итоговые упражнения: сложный граф, математический график, Ковер Серпинского.
+        \end{itemize}
     \end{alertblock}
 \end{frame}
 
 \section{Часть 1: Примеры из пособия}
 
-\begin{frame}[fragile]{1.1-1.4: Основы и профессиональное оформление (1/2)}
+\begin{frame}[fragile]{1.1-1.2: Линии и кривые}
+    \begin{columns}[T]
+        \begin{column}{0.4\textwidth}
+            \begin{block}{Код: Прямые и кривые}
+\begin{lstlisting}[language=tex]
+\begin{tikzpicture}
+  % Ломаная линия
+  \draw (-1,0) -- (3,10pt) -- (35:3);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  % Стилизация и изгибы
+  \draw[->] (-1,0) -| (3,10pt);
+  \draw[red] (3,10pt) -- (35:3);
+  % Кривые Безье
+  \draw[cyan] (-1,0) .. controls (0,-2) .. (5,1);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw[dotted,gray] (-1,0) -- (5,1);
+    \draw (-1,0) .. controls (0,-2) and (4,2) .. (5,1);
+\end{tikzpicture}
+
+\end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \begin{block}{Результат}
+                \centering
+                \includegraphics[width=0.7\linewidth]{image/1.png} \\
+                \vspace{0.5cm}
+                \includegraphics[width=0.9\linewidth]{image/2.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{1.3-1.4: Узлы (Nodes)}
     \begin{columns}[T]
         \begin{column}{0.45\textwidth}
-            \begin{block}{Код: Базовая таблица и \texttt{booktabs}}
-            \begin{lstlisting}[language=tex]
-% Обычная таблица
-\begin{tabular}{lll}
-  Animal & Food & Size \\
-  ...
-\end{tabular}
+            \begin{block}{Код: Размещение и оформление}
+\begin{lstlisting}[language=tex]
+\begin{tikzpicture}[scale=3]
+\draw (0,0) -- (1,1) node[midway]{A} node[pos=0.75,above]{B} node[below right]{C};
+\end{tikzpicture}
+\begin{tikzpicture}[scale=3]
+\draw (0,0) to node[midway]{A} node[pos=0.75, above]{B} (1,1) node[right]{C};
+\end{tikzpicture}
 
-% Таблица с длинным текстом
-\begin{tabular}{cl} ... \end{tabular}
-\begin{tabular}{cp{9cm}} ... \end{tabular}
-
-% Сокращённый синтаксис
-\begin{tabular}{*{3}{l}}
-
-% Профессиональная таблица
-\usepackage{booktabs}
-\begin{tabular}{lll}
-  \toprule
-  Animal & Food & Size \\
-  \midrule
-  dog & meat & medium \\
-  \cmidrule{1-2}
-  horse & hay & large \\
-  \bottomrule
-\end{tabular}
-            \end{lstlisting}
+\begin{tikzpicture}[scale=3]
+\draw (0,0) node[circle, draw]{$\sum\limits_{i=1}^{n}n^2$} -- (1,1)
+node[rectangle,draw]{$\frac{1}{\sqrt{2}}$};
+\end{tikzpicture}
+\begin{tikzpicture}[scale=3]
+% define nodes
+\node[circle,draw] (label1) at (0,0) {$\sum_{i=1}^{n}n^2$};
+\node[rectangle,draw] (label2) at (1,1) {$\frac{1}{\sqrt{2}}$};
+% draw the line
+\draw (label1) -- (label2);
+\end{tikzpicture}
+\end{lstlisting}
             \end{block}
         \end{column}
         \begin{column}{0.55\textwidth}
             \begin{block}{Результат}
-            \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/1.png}
-            \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/2.png}
+                \centering
+                \includegraphics[width=0.9\linewidth]{image/3.png} \\
+                \vspace{0.2cm}
+                \includegraphics[width=0.9\linewidth]{image/4.png}
             \end{block}
         \end{column}
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{1.1-1.4: Основы и профессиональное оформление (2/2)}
-	\begin{columns}[T]
-		\begin{column}{0.45\textwidth}
-       \includegraphics[width=\linewidth,height=1.0\textheight,keepaspectratio]{image/3.png}
-		\end{column}
-		\begin{column}{0.45\textwidth}
-       \includegraphics[width=\linewidth,height=1.0\textheight,keepaspectratio]{image/4.png}
-		\end{column}
+\begin{frame}[fragile]{1.5: Сложный граф}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Код: Именованные узлы}
+\begin{lstlisting}[language=tex]
+\begin{tikzpicture}[scale=2]
+% Define the nodes
+\node[circle, draw] at (0,0) (a) {A};
+\node[rectangle, fill] at (3,0) (b) {};
+\node at (3,0.4) (blabel) {B};
+\node[rectangle,rounded corners, draw] at (5,2) (c) {C};
+% Draw the paths
+\draw[->, green] (a) -- (b) node[midway, below,black]{2};
+\draw[<->, blue] (a) to[out=45, in=135] (b);
+\draw[->,red] (b)--(c);
+\draw[brown,dotted,very thick] (b) |- (c);
+\draw[<-,cyan] (b) -| (c);
+\draw[thick,black] (a).. controls (1,5) .. (c) node[midway, above]{$\frac{1}{2}$};
+\end{tikzpicture}
+\end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Результат}
+                \centering
+                \includegraphics[width=0.9\linewidth]{image/5.png}
+            \end{block}
+        \end{column}
     \end{columns}
 \end{frame}
 
-
-
-\begin{frame}[fragile]{1.5-1.6: Объединение ячеек и стилизация колонок}
+\begin{frame}[fragile]{1.6: Графики и циклы}
     \begin{columns}[T]
         \begin{column}{0.45\textwidth}
-            \begin{block}{Код: \texttt{\textbackslash multicolumn} и \texttt{>\{\}}}
-            \begin{lstlisting}[language=tex]
-% Объединение 2-х ячеек
-fuath & \multicolumn{2}{c}{unknown} \\
-% Переопределение выравнивания в заголовке
-\multicolumn{1}{c}{Animal} & \multicolumn{1}{c}{Food} &
-\multicolumn{1}{c}{Size}
-% Эмуляция верт. объединения
-herbivore & horse & large \\
- & deer & medium \\
-% Стилизация первой колонки
-% курсивом с двоеточием
-\begin{tabular}{>{\itshape}l<{:} ll}
-\toprule
-% Отмена стиля для заголовка
-\multicolumn{1}{c}{Animal} & ... \\
-\midrule
-dog & meat & medium \\
-% Удаление отступов с помощью @
-\begin{tabular}{l@{ : }l@{\hspace{2cm}}l}
-% Добавление отступа и текста с помощью !
-\begin{tabular}{l!{:}ll}
-% Разная ширина гор. линий
-\begin{tabular}{@{} lll@{}} \toprule[2pt]
-\end{tabular}
-            \end{lstlisting}
+            \begin{block}{Код: plot и foreach}
+\begin{lstlisting}[language=tex]
+\begin{tikzpicture}
+\draw [domain=-2:2] plot (\x, {pow(\x,2});
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=1.5]
+% Draw the x and y axis, label the axes and the origin
+\draw[gray, ->] (-2,0) -- (2,0) node[right]{$x$} node[pos=0.53, below]{$O$};
+\draw[gray, ->] (0,-1) -- (0,1.3) node[above]{$y$};
+\draw[fill,gray] (0,0) circle [radius=1pt];
+% Plot the curve
+\draw[blue, thick] [domain=-2:2, samples=150] plot (\x, {cos(pi*\x r)}) node[right]{$y = \cos(x)$};
+% Note: the r in the argument of the cosine signifies that we enter \x in radians
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=0.75]
+\foreach \x in {0,1,2,3}
+\draw[red,thick] (0,\x) circle [radius=\x+1];
+\end{tikzpicture}
+\end{lstlisting}
             \end{block}
         \end{column}
         \begin{column}{0.55\textwidth}
             \begin{block}{Результат}
-                \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{image/6.png}
-                \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{image/7.png}
+                \centering
+                \includegraphics[width=1.0\linewidth]{image/6.png}
             \end{block}
         \end{column}
     \end{columns}
 \end{frame}
 
-
-
-\begin{frame}[fragile]{1.7: Выравнивание чисел и таблицы фиксированной ширины}
+\begin{frame}[fragile]{1.7: Рекурсия (Треугольник Серпинского)}
     \begin{columns}[T]
         \begin{column}{0.5\textwidth}
-            \begin{block}{Код: \texttt{siunitx}, \texttt{tabular*}, \texttt{tabularx}}
-            \begin{lstlisting}[language=tex]
-% Выравнивание по десятичному знаку
-\usepackage{siunitx}
-\begin{tabular}{SS}
-\toprule {Values} & {More Values} \\ \midrule
-1 & 2.3456 \\ 1.2 & 34.2345 \\
-\bottomrule \end{tabular}
-
-% Фикс. ширина (растягивает пробелы)
-\begin{tabular*}{0.5\textwidth}
-  {@{\extracolsep{\fill}}cc@{}}
-  A & B \\ C & D \\
-\end{tabular*}
-
-% Фикс. ширина ("резиновая" колонка X)
-\usepackage{tabularx}
-\begin{tabularx}{0.5\textwidth}{lX}
- A & Long text here...\\
-\end{tabularx}
-            \end{lstlisting}
+            \begin{block}{Код: tikzmath}
+\begin{lstlisting}[language=tex]
+\newcommand\Triangle[2]{
+\draw #1 coordinate(a) -- ++(0:#2) coordinate(b);
+\draw (a) -- ++(60:#2) coordinate(c);
+\fill (a) -- (b) -- (c) -- cycle;
+}
+\begin{tikzpicture}
+\tikzmath{
+function sierpinski(\x, \y, \s, \d) {
+	if (\d == 0) then {
+		{ \Triangle{(\x,\y)}{\s}; };
+	} else {
+		\u1 = 0.25*\s;
+		\u2 = \u1*sqrt(3);
+		\u3 = 0.5*\s;
+		sierpinski(\x,\y,\u3,\d-1);
+		sierpinski(\x+\u3,\y,\u3,\d-1);
+		sierpinski(\x+\u1,\y+\u2,\u3,\d-1);
+	};
+};
+\S = 4;
+for \d in {0,...,5}{
+	\x = (\S+1)*mod(\d,2);
+	\y = int(\d/2) * (\S+1);
+	sierpinski(\x,-\y,\S,\d);
+	};
+}
+\end{tikzpicture}
+\end{lstlisting}
             \end{block}
         \end{column}
         \begin{column}{0.5\textwidth}
             \begin{block}{Результат}
-                \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/8.png}
-            \end{block}
-        \end{column}
-    \end{columns}
-\end{frame}
-
-
-\begin{frame}[fragile]{1.8-1.9: Многостраничные таблицы, сноски и вложенность}
-    \begin{columns}[T]
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Код: \texttt{longtable}, \texttt{threeparttable}}
-            \begin{lstlisting}[language=tex]
-% Для таблиц > 1 страницы
-\usepackage{longtable}
-\begin{longtable}{cc} ... \end{longtable}
-% Таблица со сносками
-\usepackage{threeparttable}
-\begin{table}
-\begin{threeparttable}
- \caption{...}
- \begin{tabular}{l}
-  Entry\tnote{1} \\
- \end{tabular}
- \begin{tablenotes}
-  \item[1] Note text.
- \end{tablenotes}
-\end{threeparttable}
-\end{table}
-% Вложенные таблицы
-\begin{tabular}{lc}
- Test & \begin{tabular}{c}A\\a\end{tabular}
-\end{tabular}
-% Установление дополнительной высоты строк
-\begin{center}
-\setlength\extrarowheight{2pt}
-            \end{lstlisting}
-            \end{block}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{block}{Результат}
-                \includegraphics[width=0.6\linewidth,height=0.9\textheight,keepaspectratio]{image/9.png}
-                \includegraphics[width=0.60\linewidth,height=0.9\textheight,keepaspectratio]{image/10.png}
+                \centering
+                \includegraphics[width=0.75\linewidth]{image/7.png}
             \end{block}
         \end{column}
     \end{columns}
@@ -238,56 +251,128 @@ dog & meat & medium \\
 
 \section{Часть 2: Итоговые упражнения}
 
-\begin{frame}[fragile]{Выполнение упражнений (1/2)}
-    \begin{alertblock}{Основные наблюдения из экспериментов}
-       \begin{itemize}
-           \item \textbf{Спецификаторы \texttt{l}, \texttt{c}, \texttt{r}} корректно выравнивают содержимое по левому/правому краю и центру.
-           \item \textbf{Меньше ячеек, чем колонок:} \LaTeX\ компилируется без ошибок, оставляя недостающие ячейки пустыми.
-           \item \textbf{Больше ячеек, чем колонок:} Компиляция прерывается с ошибкой \texttt{Extra alignment tab...}.
-           \item \textbf{\texttt{\textbackslash multicolumn}} эффективно объединяет ячейки и позволяет создавать сложные заголовки.
-       \end{itemize}
-    \end{alertblock}
-\end{frame}
-
-
-\begin{frame}[fragile]{Выполнение упражнений (2/2)}
+\begin{frame}[fragile]{Упражнение 1: Граф}
     \begin{columns}[T]
-	\begin{column}{0.5\textwidth}
-		\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{image/11.png}
-		\includegraphics[width=\linewidth,height=0.5\textheight,keepaspectratio]{image/12.png}
-	\end{column}
-	\begin{column}{0.5\textwidth}
-		\begin{block}{Код (\texttt{\textbackslash multicolumn})}
-            \begin{lstlisting}[language=tex]
-\begin{tabular}{ccc}
-  \toprule
-  \multicolumn{2}{c}{Merged Header}
-    & Single \\
-  \cmidrule(r){1-2}
-  Sub 1 & Sub 2 & Sub 3 \\
-  \midrule
-  A & B & C \\
-  D & E & F \\
-  \bottomrule
-\end{tabular}
-            \end{lstlisting}
+        \begin{column}{0.5\textwidth}
+\begin{lstlisting}[language=tex]
+\begin{tikzpicture}
+% Определение узлов в цикле
+\foreach \angle/\label/\col in {150/B/white, 270/D/white, 30/F/white} {
+\node[circle, draw, double, fill=\col, minimum size=0.8cm] (\label) at (\angle:3cm) {\Large \label};
+}
+\foreach \angle/\label/\col in {90/A/green, 210/C/green, 330/E/green} {
+\node[circle, draw, fill=\col, minimum size=0.8cm] (\label) at (\angle:3cm) {\Large \label};
+}
+% Соединения
+\draw[red] (A) to[out=150, in=40] (B);
+\draw[red] (A) to[out=200, in=35] (D) node[midway, right] {\Large $\sqrt{2}$}; % Кривая sqrt(2)
+\draw[red] (A) to[out=340, in=90] (E);
+\draw[blue, dotted, very thick] (B) -- (F) node[midway, above] {\large 6};
+\draw[cyan, thick] (B) to[out=260, in=100] (C);
+\draw[blue, dotted] (B) -- (D) node[midway, left] {\large 2};
+\draw[blue, dotted] (F) -- (D) node[midway, right] {\large 4};
+\draw[cyan, thick] (C) to[out=320, in=125] (D);
+\end{tikzpicture}
+\end{lstlisting}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Результат}
+                \centering
+                \includegraphics[width=0.7\linewidth]{image/8.png}
             \end{block}
-                \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{image/13.png}
-	\end{column}
+        \end{column}
     \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]{Упражнение 2: Математические графики}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Задача и решение}
+                Графики $y=e^x$ и $y=\ln(x)$ с осями.
+\begin{lstlisting}[language=tex]
+\begin{tikzpicture}[scale=1.5]
+    % Оси
+    \draw[gray, ->] (-1,0) -- (1.75,0) node[right] {\large $x$};
+    \draw[gray, ->] (0,-2) -- (0,3.4) node[above] {\large $y$};
+    \node[below right, gray] at (0,0) {$O$};
+    \draw[fill,gray] (0,0) circle [radius=1pt];
+    
+    % Метки на осях
+    \draw [gray] (1, 2pt) -- (1, -2pt) node[below right = -2.5pt] {\large $x=1$};
+    \draw [gray] (2pt, 1) -- (-2pt, 1) node[left] {\large $y=1$};
+    
+    % График e^x
+    \draw[blue, thick, domain=-1:1.2] plot (\x, {exp(\x)}) node[right] {$y=e^x$};
+    
+    % График ln(x)
+    \draw[black, thick, domain=0.1:1.5] plot (\x, {ln(\x)}) node[right] {$y=\ln(x)$};
+\end{tikzpicture}
+\end{lstlisting}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Результат}
+                \centering
+                \includegraphics[width=0.7\linewidth]{image/9.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
 
-\section{Выводы}
+\begin{frame}[fragile]{Упражнение 3: Ковер Серпинского}
+    \begin{columns}[T]
+        \begin{column}{0.55\textwidth}
+            %\begin{block}{Алгоритм}
+                %Квадрат делится на 9 частей. Центр (1,1) пропускается, для остальных 8 вызывается рекурсия.
+\begin{lstlisting}[language=tex]
+\tikzmath{
+function sierpinski_carpet(\x, \y, \s, \d) {
+  if (\d == 0) then {
+    { \fill[black] (\x, \y) rectangle (\x+\s, \y+\s); };
+  } else {
+     \ns = \s/3;
+      for \ix in {0, 1, 2} {
+        for \iy in {0, 1, 2} {
+          if (\ix == 1 && \iy == 1) then {
+            % Пропускаем центр (дырка)
+           } else {
+ sierpinski_carpet(\x + \ix*\ns, \y + \iy*\ns, \ns, \d-1);
+            };
+          };
+        };
+      };
+  };
+}
+\tikzmath{ 
+\S = 5;
+for \d in {1,...,4}{
+	\x = (\S+1)*mod(\d-1,2);
+	\y = int((\d-1)/2) * (\S+1);
+	sierpinski_carpet(\x,-\y,\S,\d);
+	};
+}
+\end{tikzpicture}
+\end{lstlisting}
+            %\end{block}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Результат (4 итерации)}
+                \centering
+                \includegraphics[width=0.9\linewidth]{image/10.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Заключение}
+
 \begin{frame}{Выводы}
-    \begin{block}{Освоенные навыки}
+    \begin{block}{Результаты работы}
     \begin{itemize}
-        \item Создание таблиц различной сложности, от базовых до многостраничных.
-        \item Профессиональное оформление с помощью \texttt{booktabs} (горизонтальные линии, отступы).
-        \item Точное выравнивание числовых данных с помощью \texttt{siunitx}.
-        \item Верстка таблиц заданной ширины с помощью \texttt{tabular*} и \texttt{tabularx}.
-        \item Создание таблиц со сносками (\texttt{threeparttable}).
-        \item Применение продвинутых техник: стилизация колонок, вложенные таблицы, управление высотой строк.
+        \item Изучен синтаксис TikZ: пути, координаты, стили.
+        \item Освоена работа с узлами для создания схем и графов.
+        \item Реализовано построение точных графиков математических функций.
+        \item Применены возможности программирования внутри \LaTeX\ (циклы, переменные, рекурсия) для создания фракталов.
     \end{itemize}
     \end{block}
 \end{frame}

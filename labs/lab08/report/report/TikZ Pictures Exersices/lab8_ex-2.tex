@@ -1,0 +1,23 @@
+\documentclass[border=1cm]{standalone}
+\usepackage{tikz}
+\begin{document}
+
+\begin{tikzpicture}[scale=1.5]
+    % Оси
+    \draw[gray, ->] (-1,0) -- (1.75,0) node[right] {\large $x$};
+    \draw[gray, ->] (0,-2) -- (0,3.4) node[above] {\large $y$};
+    \node[below right, gray] at (0,0) {$O$};
+    \draw[fill,gray] (0,0) circle [radius=1pt];
+    
+    % Метки на осях
+    \draw [gray] (1, 2pt) -- (1, -2pt) node[below right = -2.5pt] {\large $x=1$};
+    \draw [gray] (2pt, 1) -- (-2pt, 1) node[left] {\large $y=1$};
+    
+    % График e^x
+    \draw[blue, thick, domain=-1:1.2] plot (\x, {exp(\x)}) node[right] {$y=e^x$};
+    
+    % График ln(x)
+    \draw[black, thick, domain=0.1:1.5] plot (\x, {ln(\x)}) node[right] {$y=\ln(x)$};
+\end{tikzpicture}
+
+\end{document}

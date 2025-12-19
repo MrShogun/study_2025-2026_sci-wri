@@ -32,10 +32,12 @@
 
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{caption}
+% Настройка листингов кода
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{black!5},
     commentstyle=\color{green!40!black},
-    keywordstyle=\color{magenta},
+    keywordstyle=\color{blue},
     stringstyle=\color{purple},
     basicstyle=\footnotesize\ttfamily,
     numbers=left,
@@ -43,6 +45,7 @@
     numberstyle=\tiny\color{black!60},
     frame=tb,
     framerule=0pt,
+    keepspaces=true,
 }
 \lstset{style=mystyle}
 
@@ -62,7 +65,7 @@
 \geometry{left=2.5cm, right=1.5cm, top=2cm, bottom=2cm}
 
 \author{Николаев Дмитрий Иванович, НПМмд-02-24}
-\title{Лабораторная работа №4: Включение графики и создание перекрестных ссылок в \LaTeX \\ Computer Skills for Scientific Writing}
+\title{Лабораторная работа №8: Создание диаграмм и рисунков с помощью TikZ в \LaTeX \\ Computer Skills for Scientific Writing}
 \date{\today}
 
 \begin{document}
@@ -75,462 +78,338 @@
   \pagebreak
 
 \section{Цель работы}
-Целью данной работы является изучение и практическое освоение средств работы с графикой и перекрёстными ссылками в \LaTeX. 
+Целью данной работы является доскональное изучение и практическое освоение инструментов создания векторной графики в \LaTeX\ с использованием пакета TikZ. Задача включает в себя воспроизведение примеров построения примитивов, графов, графиков функций и фрактальных структур из учебного пособия~\cite{lab}, а также выполнение итоговых упражнений на создание сложных иллюстраций.
 
 \section{Теоретическое введение}
-Визуализация данных и удобная навигация по документу являются неотъемлемыми атрибутами качественной научной работы. \LaTeX предоставляет достаточно гибкие инструменты для включения графических материалов (растровых и векторных изображений, диаграмм, графиков) и создания системы перекрёстных ссылок, которая автоматически обновляется при изменениях в документе.
+Пакет TikZ (рекурсивный акроним от нем. \textit{TikZ ist kein Zeichenprogramm} --- «TikZ --- это не программа для рисования») представляет собой мощный инструмент для создания графики программным путем непосредственно в коде \LaTeX. В отличие от визуальных редакторов, TikZ позволяет описывать изображения с помощью команд, что обеспечивает высочайшее качество печати, единый стиль с основным документом (шрифты, математические формулы) и возможность автоматизации.
 
-Основным инструментом для вставки изображений является пакет \texttt{graphicx} с его командой \texttt{\textbackslash includegraphics}. Для управления расположением изображений используются "плавающие" окружения, такие как \texttt{figure}. Механизм ссылок строится на паре команд \texttt{\textbackslash label} (для создания "якоря") и \texttt{\textbackslash ref} (для ссылки на него). Пакет \texttt{hyperref} расширяет эту функциональность, превращая ссылки в кликабельные гиперссылки в итоговом PDF-документе.
+Рисунки создаются внутри окружения \texttt{tikzpicture}. Основными строительными блоками являются пути (paths), узлы (nodes) и стили. TikZ поддерживает декартовы и полярные координаты, циклы \texttt{\textbackslash foreach}, математические вычисления (через библиотеку \texttt{tikz.math}) и множество библиотек для специфических задач (графы, цепи, диаграммы).
 
 \section{Выполнение лабораторной работы}
-В процессе выполнения работы был создан файл \texttt{lab4.tex} (а также \texttt{lab4\_2column.tex} для одного задания), в который последовательно добавлялись примеры из пособия и решения упражнений.
+Были последовательно воспроизведены все примеры из раздела 8 «Diagrams and drawings as code» учебного пособия~\cite{lab}, после чего выполнены задания для самостоятельной работы.
 
-\subsection{Часть 1: Последовательное воспроизведение примеров из пособия}
+\subsection{Часть 1: Воспроизведение примеров из пособия}
 
-Будем выполнять задания из пособия~\cite{lab}.
+\paragraph{1.1. Рисование прямых линий.}
+Первым шагом было освоение команды \texttt{\textbackslash draw}. Координаты задаются в круглых скобках (x,y) или в полярной системе (угол:длина). Код приведён в \lstlistingname~\ref{lst:lines}, результат --- на \figurename~\ref{fig:001}.
 
-\paragraph{1.1. Базовая вставка изображения.}
-Для начала работы был подключен пакет \texttt{graphicx}. Изображение было вставлено с помощью команды \texttt{\textbackslash includegraphics} и отцентрировано с помощью окружения \texttt{center}. Код приведён в \lstlistingname~\ref{lst:part1_1}, результат на \figurename~\ref{fig:001}.
+\begin{lstlisting}[float=htbp, language=tex, caption={Базовое рисование линий}, label=lst:lines]
+\begin{tikzpicture}
+    \draw (-1,0) -- (3,10pt) -- (35:3);
+\end{tikzpicture}
+\end{lstlisting}
 
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Базовая вставка изображения},
-    label=lst:part1_1
-]
-\documentclass{article}
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
+\begin{figure}[H]
+\centering
+% Здесь должен быть скриншот результата
+\includegraphics[width=0.5\textwidth]{image/1.png}
+\caption{Результат рисования ломаной линии по координатам}
+\label{fig:001}
+\end{figure}
+
+\paragraph{1.2. Стилизация линий и кривые.}
+Далее были рассмотрены опции стилизации (стрелки \texttt{->}, цвет \texttt{red}) и специальные типы соединений: ортогональные сегменты (\texttt{-|}) и кривые линии с использованием команд \texttt{to[out=..,in=..]} и кривых Безье через \texttt{.. controls ..}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Стилизация линий и кривые Безье}, label=lst:curves]
+\begin{tikzpicture}
+    \draw[->] (-1,0) -| (3,10pt);
+    \draw[red] (3,10pt) -- (35:3);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw (-1,0) to (5,1);
+    \draw[green] (-1,0) to[out=90,in=135] (5,1);
+    \draw[cyan] (-1,0) .. controls (0,-2) .. (5,1);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw[dotted,gray] (-1,0) -- (5,1);
+    \draw (-1,0) .. controls (0,-2) and (4,2) .. (5,1);
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{image/2.png}
+\caption{Различные типы линий и кривых}
+\label{fig:002}
+\end{figure}
+
+\paragraph{1.3. Узлы (Nodes).}
+Узлы используются для добавления текста и меток. Рассмотрено размещение узлов относительно координат и линий с помощью опций \texttt{midway}, \texttt{pos}, \texttt{above}, \texttt{right}.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Размещение текстовых узлов}, label=lst:nodes]
+\begin{tikzpicture}[scale=3]
+\draw (0,0) node {hello} -- (1,1) node {world};
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=3]
+\draw (0,0) -- (1,1) node[midway]{A} node[pos=0.75,above]{B} node[below right]{C};
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=3]
+\draw (0,0) to node[midway]{A} node[pos=0.75, above]{B} (1,1) node[right]{C};
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{image/3.png}
+\caption{Примеры размещения текстовых меток (узлов)}
+\label{fig:003}
+\end{figure}
+
+\paragraph{1.4. Узлы с формулами и фигурами.}
+Узлы могут содержать математические формулы и иметь форму (круг, прямоугольник), если задана опция \texttt{draw}. Также была изучена техника именования узлов для последующего соединения их линиями.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Узлы с оформлением и математикой}, label=lst:mathnodes]
+\begin{tikzpicture}[scale=3]
+\draw (0,0) node[circle, draw]{$\sum\limits_{i=1}^{n}n^2$} -- (1,1)
+node[rectangle,draw]{$\frac{1}{\sqrt{2}}$};
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=3]
+% define nodes
+\node[circle,draw] (label1) at (0,0) {$\sum_{i=1}^{n}n^2$};
+\node[rectangle,draw] (label2) at (1,1) {$\frac{1}{\sqrt{2}}$};
+% draw the line
+\draw (label1) -- (label2);
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{image/4.png}
+\caption{Соединенные узлы с математическим содержимым}
+\label{fig:004}
+\end{figure}
+
+\paragraph{1.5. Сложный граф.}
+Итоговый пример первой части демонстрирует объединение всех техник: определение именованных узлов разной формы и цвета, и соединение их различными типами линий (пунктирными, кривыми, цветными) с подписями.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Построение сложного графа}, label=lst:complexgraph]
+\begin{tikzpicture}[scale=2]
+% Define the nodes
+\node[circle, draw] at (0,0) (a) {A};
+\node[rectangle, fill] at (3,0) (b) {};
+\node at (3,0.4) (blabel) {B};
+\node[rectangle,rounded corners, draw] at (5,2) (c) {C};
+% Draw the paths
+\draw[->, green] (a) -- (b) node[midway, below,black]{2};
+\draw[<->, blue] (a) to[out=45, in=135] (b);
+\draw[->,red] (b)--(c);
+\draw[brown,dotted,very thick] (b) |- (c);
+\draw[<-,cyan] (b) -| (c);
+\draw[thick,black] (a).. controls (1,5) .. (c) node[midway, above]{$\frac{1}{2}$};
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{image/5.png}
+\caption{Сложный граф, объединяющий разные техники TikZ}
+\label{fig:005}
+\end{figure}
+
+\paragraph{1.6. Графики функций и циклы.}
+TikZ позволяет строить графики элементарных функций, указывая домен (область определения) и количество точек выборки (\texttt{samples}). Также изучены циклы \texttt{\textbackslash foreach} для повторяющихся действий.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={График параболы, косинуса и циклы}, label=lst:plots]
+\begin{tikzpicture}
+\draw [domain=-2:2] plot (\x, {pow(\x,2});
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=1.5]
+% Draw the x and y axis, label the axes and the origin
+\draw[gray, ->] (-2,0) -- (2,0) node[right]{$x$} node[pos=0.53, below]{$O$};
+\draw[gray, ->] (0,-1) -- (0,1.3) node[above]{$y$};
+\draw[fill,gray] (0,0) circle [radius=1pt];
+% Plot the curve
+\draw[blue, thick] [domain=-2:2, samples=150] plot (\x, {cos(pi*\x r)}) node[right]{$y = \cos(x)$};
+% Note: the r in the argument of the cosine signifies that we enter \x in radians
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=0.75]
+\foreach \x in {0,1,2,3}
+\draw[red,thick] (0,\x) circle [radius=\x+1];
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image/6.png}
+\caption{График функции $y = x^2$, $y=\cos(x)$ и концентрические окружности}
+\label{fig:006}
+\end{figure}
+
+\paragraph{1.7. Фракталы (Треугольник Серпинского).}
+С использованием библиотеки \texttt{tikz.math} была реализована рекурсивная функция для построения треугольника Серпинского.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Треугольник Серпинсокго}, label=lst:sierpinski_triangle]
+\usepackage{tikz}
+\usetikzlibrary{math}
+
+% Define a equilateral triangle with lower left corner at coordinate #1 and
+% with length of the sides #2
+\newcommand\Triangle[2]{
+	\draw #1 coordinate(a) -- ++(0:#2) coordinate(b);
+	\draw (a) -- ++(60:#2) coordinate(c);
+	\fill (a) -- (b) -- (c) -- cycle;
+}
+
 \begin{document}
-This picture
-\begin{center}
-\includegraphics[height=2cm]{example-image.png}
-\end{center}
-is an imported PDF.
-\end{document}
+\begin{tikzpicture}
+	\tikzmath{
+		% Define the recursive function sierpinski
+		function sierpinski(\x, \y, \s, \d) {
+			if (\d == 0) then {
+				% Draw a triangle lower left corner at (\x, \y), length \s 
+				{ \Triangle{(\x,\y)}{\s}; };
+			} else {
+				% Rescale the length of the sides and choose correct coords
+				% for the next triangles
+				\u1 = 0.25*\s;
+				\u2 = \u1*sqrt(3);
+				\u3 = 0.5*\s;
+				sierpinski(\x,\y,\u3,\d-1);
+				sierpinski(\x+\u3,\y,\u3,\d-1);
+				sierpinski(\x+\u1,\y+\u2,\u3,\d-1);
+			};
+		};
+		% Let the length of the sides of the base triangle be 4, and generate 6 figures
+		\S = 4;
+		for \d in {0,...,5}{
+			% To situate all plots nicely under and next to each other, define the coords
+			% of the lower left corners preemptively
+			\x = (\S+1)*mod(\d,2);
+			\y = int(\d/2) * (\S+1);
+			sierpinski(\x,-\y,\S,\d);
+			};
+		}
+\end{tikzpicture}
 \end{lstlisting}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/1.png}
-    \caption{Результат базовой вставки изображения}
-    \label{fig:001}
-\end{figure}
-
-\paragraph{1.2. Изменение внешнего вида графики.}
-Были изучены опции для масштабирования изображения относительно высоты (\texttt{\textbackslash textheight}) и ширины (\texttt{\textbackslash textwidth}) текстового блока, а также опции для кадрирования (\texttt{trim}) и обрезки (\texttt{clip}). Код показан в \lstlistingname~\ref{lst:part1_2}, результат --- на \figurename~\ref{fig:002_1}--\ref{fig:002_2}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Масштабирование и кадрирование изображения},
-    label=lst:part1_2
-]
-% --- Масштабирование ---
-\begin{center}
-    \includegraphics[height = 0.5\textheight]{example-image.png}
-\end{center}
-Some text
-\begin{center}
-    \includegraphics[width = 0.5\textwidth]{example-image.png}
-\end{center}
-
-% --- Кадрирование ---
-\begin{center}
-    \includegraphics[clip, trim = 0 0 50 50]{example-image.png}
-\end{center}
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/2_1.png}
-    \caption{Масштабированные изображения}
-    \label{fig:002_1}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/2_2.png}
-    \caption{Кадрированное изображение}
-    \label{fig:002_2}
-\end{figure}
-
-\paragraph{1.3. Плавающие окружения.}
-Для корректного обтекания рисунков текстом используется плавающее окружение \texttt{figure}. С помощью пакета \texttt{lipsum} был добавлен демонстрационный текст, показывающий, как \LaTeX автоматически перемещает рисунок в подходящее место (например, наверх следующей страницы, как в данном примере), чтобы избежать больших пустых пространств. Код приведён в \lstlistingname~\ref{lst:part1_3}, результат на \figurename~\ref{fig:003}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Использование плавающего окружения figure},
-    label=lst:part1_3
-]
-\usepackage{lipsum} % produce dummy text as filler
-...
-\lipsum[1-4] % Just a few filler paragraphs
-Test location.
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{example-image-a.png}
-    \caption{An example image}
-\end{figure}
-\lipsum[6-10] % Just a few filler paragraphs
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/3.png}
-    \caption{Работа механизма плавающих окружений}
-    \label{fig:003}
-\end{figure}
-
-\paragraph{1.4. Хранение графики в подкаталоге.}
-Для лучшей организации проекта была использована папка \texttt{image}, в которую было помещено изображение. Команда \texttt{\textbackslash graphicspath\{\{image/\}\}} в преамбуле позволила \LaTeX автоматически искать файлы в этой папке. Код показан в \lstlistingname~\ref{lst:part1_4}, результат --- на \figurename~\ref{fig:004}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Использование \texttt{\textbackslash graphicspath}},
-    label=lst:part1_4
-]
-% В преамбуле документа:
-\graphicspath{{image/}}
-...
-% В теле документа:
-An image from directory
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.5\textwidth]{example-image_b.png}
-\caption{An example image from directory}
-\end{figure}
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/4.png}
-    \caption{Вставка изображения из подкаталога}
-    \label{fig:004}
-\end{figure}
-
-\paragraph{1.5. "Жёсткая" фиксация положения.}
-Иногда требуется запретить \LaTeX'у перемещать изображение. Для этого используется пакет \texttt{float} и опция \texttt{[H]} (Here) у окружения \texttt{figure}. Код представлен в \lstlistingname~\ref{lst:part1_5}, результат --- на \figurename~\ref{fig:005}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={"Жёсткая" фиксация с пакетом float},
-    label=lst:part1_5
-]
-\usepackage{float}
-...
-\lipsum[1-8]
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{example-image.png}
-\caption{An example image}
+\includegraphics[width=0.9\textwidth]{image/7.png}
+\caption{Итерации треугольника Серпинского}
+\label{fig:007}
 \end{figure}
-\lipsum[9-16]
+
+\subsection{Часть 2: Итоговые упражнения}
+
+\paragraph{2.1. Упражнение 1: Граф с полярными координатами.}
+Необходимо было построить граф с 6 узлами по кругу. Использовались полярные координаты (угол:радиус) для размещения узлов A--F.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Код для Упражнения 1 (Граф)}, label=lst:ex1]
+\begin{tikzpicture}
+    % Определение узлов в цикле
+    \foreach \angle/\label/\col in {150/B/white, 270/D/white, 30/F/white} {
+        \node[circle, draw, double, fill=\col, minimum size=0.8cm] (\label) at (\angle:3cm) {\Large \label};
+    }
+    \foreach \angle/\label/\col in {90/A/green, 210/C/green, 330/E/green} {
+        \node[circle, draw, fill=\col, minimum size=0.8cm] (\label) at (\angle:3cm) {\Large \label};
+    }
+    
+    % Соединения
+    \draw[red] (A) to[out=150, in=40] (B);
+    \draw[red] (A) to[out=200, in=35] (D) node[midway, right] {\Large $\sqrt{2}$}; % Кривая sqrt(2)
+    \draw[red] (A) to[out=340, in=90] (E);
+    
+    \draw[blue, dotted, very thick] (B) -- (F) node[midway, above] {\large 6};
+    \draw[cyan, thick] (B) to[out=260, in=100] (C);
+    
+    \draw[blue, dotted] (B) -- (D) node[midway, left] {\large 2};
+    \draw[blue, dotted] (F) -- (D) node[midway, right] {\large 4};
+    \draw[cyan, thick] (C) to[out=320, in=125] (D);
+
+\end{tikzpicture}
 \end{lstlisting}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/5.png}
-    \caption{Рисунок, зафиксированный в тексте с помощью опции [H]}
-    \label{fig:005}
-\end{figure}
-
-\paragraph{1.6. Создание новых типов плавающих окружений.}
-Пакет \texttt{trivfloat} позволяет создавать новые типы плавающих объектов. В примере был создан новый тип \texttt{image}. Код показан в \lstlistingname~\ref{lst:part1_6}, результат --- на \figurename~\ref{fig:006}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Новый тип плавающего окружения с trivfloat},
-    label=lst:part1_6
-]
-\usepackage{trivfloat}
-\trivfloat{image}
-...
-trivfloat image
-\begin{image}
-\centering
-\includegraphics[width=0.5\textwidth]{example-image.png}
-\caption{An example image}
-\end{image}
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/6.png}
-    \caption{Результат использования окружения `image` из `trivfloat`}
-    \label{fig:006}
-\end{figure}
-
-\paragraph{1.7. Создание перекрёстных ссылок.}
-Была реализована система ссылок на раздел и уравнение с помощью команд \texttt{\textbackslash label} и \texttt{\textbackslash ref}. Особое внимание было уделено неразрывному пробелу \texttt{\textasciitilde}, который предотвращает перенос строки между названием объекта (например, "уравнение") и его номером. Для корректного отображения потребовалось две компиляции. Код --- в \lstlistingname~\ref{lst:part1_7}, результат --- на \figurename~\ref{fig:007}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Перекрёстные ссылки на раздел и уравнение},
-    label=lst:part1_7
-]
-\section{Title of the first section}
-Hey world!
-
-This is a first document.
-
-\section{Title of the first section}
-
-Text of material for the first section.
-
-\subsection{Subsection of the first section}
-\label{subsec:labelone}
-
-Text of material for the first subsection.
-\begin{equation}
-e^{i\pi}+1 = 0
-\label{eq:labeltwo}
-\end{equation}
-
-In subsection~\ref{subsec:labelone} is equation~\ref{eq:labeltwo}.
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/7.png}
-    \caption{Корректно отображённые перекрёстные ссылки}
-    \label{fig:007}
-\end{figure}
-
-\paragraph{1.8. Кликабельные ссылки с hyperref.}
-Для создания интерактивных ссылок в PDF-документе был подключен пакет \texttt{hyperref} с опцией \texttt{hidelinks} (но после оставлено без данной опции), чтобы убрать стандартную цветную рамку вокруг ссылок. Код --- в \lstlistingname~\ref{lst:part1_8}, результат --- на \figurename~\ref{fig:008}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Использование пакета hyperref},
-    label=lst:part1_8
-]
-\usepackage[hidelinks]{hyperref}
-...
-\section{Introduction}
-
-Some exciting text with a reference~\ref{sec:next}.
-
-\section{Next thing}
-\label{sec:next}
-
-More text here. \lipsum[1]
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/8.png}
-    \caption{Кликабельная ссылка в PDF-документе}
-    \label{fig:008}
-\end{figure}
-
-
-\subsection{Часть 2: Выполнение упражнений}
-
-\paragraph{2.1. Исследование опций \texttt{\textbackslash includegraphics}.}
-Был вставлен собственный рисунок, и к нему были применены различные опции: \texttt{width}, \texttt{height}, \texttt{scale} (масштаб) и \texttt{angle} (поворот). Это позволило наглядно увидеть их влияние на итоговое изображение. Код --- в \lstlistingname~\ref{lst:part2_1}, результат --- на \figurename~\ref{fig:009}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Эксперименты с опциями \texttt{\textbackslash includegraphics}},
-    label=lst:part2_1
-]
-Using different image options at Fig.~\ref{fig:my_image}.
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth,
-                     height=4cm,
-                     scale=0.8,
-                     angle=15]
-                     {example-image_b.png}
-    \caption{Application of the options width, height, scale and angle}
-    \label{fig:my_image}
-\end{figure}
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/9.png}
-    \caption{Результат применения различных опций к изображению}
-    \label{fig:009}
-\end{figure}
-
-
-\paragraph{2.2. Сравнение \texttt{\textbackslash textwidth} и \texttt{\textbackslash linewidth}.}
-Для анализа разницы между \texttt{\textbackslash textwidth} и \texttt{\textbackslash linewidth} был создан документ в двухколоночном режиме (\texttt{twocolumn}).
-
-Заметим, что \texttt{\textbackslash textwidth} --- это полная ширина текстового блока на странице, в то время как \texttt{\textbackslash linewidth} --- это ширина текущей строки. В двухколоночном режиме \texttt{\textbackslash linewidth} равна ширине одной колонки, а \texttt{\textbackslash textwidth} остаётся равной ширине обеих колонок вместе с промежутком. В результате изображение, масштабированное по \texttt{\textbackslash textwidth}, выходит далеко за пределы колонки, а по \texttt{\textbackslash linewidth} --- идеально вписывается в неё. Код --- в \lstlistingname~\ref{lst:part2_2}, результат --- на \figurename~\ref{fig:010}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Сравнение \texttt{\textbackslash textwidth} и \texttt{\textbackslash linewidth}},
-    label=lst:part2_2
-]
-\documentclass[twocolumn]{article}
-\usepackage{graphicx}
-\usepackage{lipsum}
-\begin{document}
-\lipsum[1]
-
-Width relative to \texttt{\textbackslash textwidth}:
-\includegraphics[width=0.6\textwidth]{example-image-a.png}
-
-Width relative to \texttt{\textbackslash linewidth}:
-\includegraphics[width=0.8\linewidth]{example-image-c.png}
-
-\lipsum[2-5]
-\end{document}
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/10.png}
-    \caption{Разница в поведении \texttt{\textbackslash textwidth} и \texttt{\textbackslash linewidth} в двухколончатом режиме}
-    \label{fig:010}
-\end{figure}
-
-\paragraph{2.3. Эксперименты со спецификаторами размещения.}
-Был создан длинный текст с плавающим рисунком, у которого менялись спецификаторы размещения (\texttt{[h]}, \texttt{[t]}, \texttt{[b]}, \texttt{[p]}, \texttt{[!htbp]}).
-
-Спецификаторы работают как рекомендации для \LaTeX.
-\begin{itemize}
-    \item \texttt{h} (here): пытается разместить объект здесь. Работает только если есть место.
-    \item \texttt{t} (top): разрешает размещение вверху страницы.
-    \item \texttt{b} (bottom): разрешает размещение внизу страницы.
-    \item \texttt{p} (page): разрешает вынос на отдельную страницу с плавающими объектами.
-\end{itemize}
-Комбинация \texttt{[!htbp]} даёт \LaTeX максимальную свободу и обычно приводит к наилучшему результату с точки зрения типографики. Код --- в \lstlistingname~\ref{lst:part2_3}, результат --- на \figurename~\ref{fig:011}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Сравнение расположений изображения с различными спецификаторами},
-    label=lst:part2_3
-]
-\lipsum[1-3]
-\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{example-image-c.png}
-\caption{An example image}
+\includegraphics[width=0.6\textwidth]{image/8.png}
+\caption{Результат выполнения Упражнения 1}
+\label{fig:008}
 \end{figure}
-\lipsum[4-5]
+
+\paragraph{2.2. Упражнение 2: Графики экспоненты и логарифма.}
+Требовалось построить графики $y=e^x$ и $y=\ln(x)$. При построении логарифма важно учитывать область определения ($x>0$), поэтому домен начинался с 0.1.
+
+\begin{lstlisting}[float=htbp, language=tex, caption={Код для Упражнения 2 (Графики)}, label=lst:ex2]
+\begin{tikzpicture}[scale=1.5]
+    % Оси
+    \draw[gray, ->] (-1,0) -- (1.75,0) node[right] {\large $x$};
+    \draw[gray, ->] (0,-2) -- (0,3.4) node[above] {\large $y$};
+    \node[below right, gray] at (0,0) {$O$};
+    \draw[fill,gray] (0,0) circle [radius=1pt];
+    
+    % Метки на осях
+    \draw [gray] (1, 2pt) -- (1, -2pt) node[below right = -2.5pt] {\large $x=1$};
+    \draw [gray] (2pt, 1) -- (-2pt, 1) node[left] {\large $y=1$};
+    
+    % График e^x
+    \draw[blue, thick, domain=-1:1.2] plot (\x, {exp(\x)}) node[right] {$y=e^x$};
+    
+    % График ln(x)
+    \draw[black, thick, domain=0.1:1.5] plot (\x, {ln(\x)}) node[right] {$y=\ln(x)$};
+\end{tikzpicture}
 \end{lstlisting}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/11.png}
-    \caption{Наилучший результат расположения изображения со спецификатором \texttt{[!htbp]}}
-    \label{fig:011}
-\end{figure}
-
-\paragraph{2.4. Стабилизация ссылок.}
-В документ были добавлены новые нумерованные элементы (подраздел и список \texttt{enumerate}) и установлены на них ссылки. 
-
-При первой компиляции \LaTeX видит метки \texttt{\textbackslash label}, но ещё не знает их значений. Он записывает их в \texttt{.aux} файл. Ссылки \texttt{\textbackslash ref} отображаются как \texttt{??}. При второй компиляции \LaTeX читает \texttt{.aux} файл и подставляет правильные номера. Если структура документа сложная, может потребоваться и третья компиляция. В данном случае \textbf{стабилизация всех ссылок произошла за 2 прогона компилятора}. При этом ссылка на нумерованный список как результат отметила номер подраздела. Код --- в \lstlistingname~\ref{lst:part2_4}, Результат на \figurename~\ref{fig:012}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Добавление новых ссылок на раздел, подраздел, нумерованный список},
-    label=lst:part2_4
-]
-\section{Label Test}
-\label{sec:labtest}
-
-Text of the section~\ref{sec:labtest} for label testing.
-
-\subsection{Enumerate label test}
-\label{subsec:enlabtest}
-
-Here in subsection~\ref{subsec:enlabtest} we test enumerate list and it's label~\ref{en:test}
-\begin{enumerate}
-\label{en:test}
-\item \lipsum[1]
-\item \lipsum[2]
-\end{enumerate}
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/12.png}
-    \caption{Ссылки на новые элементы: подраздел и пункт списка}
-    \label{fig:012}
-\end{figure}
-
-\paragraph{2.5. Важность порядка команд \texttt{\textbackslash label} и \texttt{\textbackslash caption}.}
-Команда \texttt{\textbackslash label} была помещена \textit{до} команды \texttt{\textbackslash caption} внутри окружения \texttt{figure}.
-
-Команда \texttt{\textbackslash label} всегда ссылается на последний инкрементированный счётчик, а команда \texttt{\textbackslash caption} как раз и отвечает за увеличение счётчика рисунков (\texttt{figure}). Если \texttt{\textbackslash label} стоит до неё, то она находит предыдущий счётчик, которым в данном случае был счётчик подразделов (\texttt{subsection}). В итоге, ссылка \texttt{\textbackslash ref} указывает не на номер рисунка, а на номер подраздела. Таким образом, команду \texttt{\textbackslash label} для плавающих объектов необходимо всегда ставить \textbf{после} команды \texttt{\textbackslash caption}. Код --- в \lstlistingname~\ref{lst:part2_5}, Результат эксперимента на \figurename~\ref{fig:013}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Неправильный порядок \texttt{\textbackslash label} и \texttt{\textbackslash caption}},
-    label=lst:part2_5
-]
-Then we test wrong label to an image with a caption.
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{example-image-c.png}
-    \label{fig:wrong_label_order} % Неправильно!
-    \caption{A figure with incorrect label order.}
-\end{figure}
-A reference to figure~\ref{fig:wrong_label_order}. % Ссылка будет на номер подраздела
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/13.png}
-    \caption{Некорректная ссылка на изображение из-за неправильного порядка команд}
-    \label{fig:013}
+\centering
+\includegraphics[width=0.5\textwidth]{image/9.png}
+\caption{Результат выполнения Упражнения 2}
+\label{fig:009}
 \end{figure}
 
-\paragraph{2.6. \texttt{\textbackslash label} вне окружения \texttt{equation}.}
-Команда \texttt{\textbackslash label} была помещена \textit{после} \texttt{\textbackslash end\{equation\}}.
+\paragraph{2.3. Упражнение 3: Ковер Серпинского.}
+Для реализации ковра Серпинского код треугольника был модифицирован. Квадрат делился на 9 частей, центральная часть пропускалась, а для остальных 8 вызывалась рекурсия.
 
-Это аналогично предыдущему пункту. Окружение \texttt{equation} --- это область, где создаётся и нумеруется формула. Как только \LaTeX встречает \texttt{\textbackslash end\{equation\}}, счётчик формул перестаёт быть активным. Команда \texttt{\textbackslash label}, расположенная снаружи, снова находит счётчик подраздела. Ссылка не сработает, как ожидалось, а значит, команда \texttt{\textbackslash label} для нумерованного объекта должна находиться внутри его окружения. Код --- в \lstlistingname~\ref{lst:part2_6}, Результат эксперимента на \figurename~\ref{fig:014}.
-
-\begin{lstlisting}[
-    float=htbp,
-    language=tex,
-    caption={Неправильный порядок \texttt{\textbackslash label} и \texttt{\textbackslash end\{equation\}}},
-    label=lst:part2_6
-]
-\subsection{Equation label test}
-\label{subsec:eqlabtest}
-
-And finally, here in subsection~\ref{subsec:eqlabtest} we test wrong label for an equation~\ref{eq:test}
-\begin{equation}
-e = mc^2
-\end{equation}
-\label{eq:test} 
+\begin{lstlisting}[float=htbp, language=tex, caption={Код для генерации ковра Серпинского}, label=lst:ex3]
+\usetikzlibrary{math}
+\begin{tikzpicture}
+\tikzmath{
+    function sierpinski_carpet(\x, \y, \s, \d) {
+        if (\d == 0) then {
+            { \fill[black] (\x, \y) rectangle (\x+\s, \y+\s); };
+        } else {
+            \ns = \s/3;
+            for \ix in {0, 1, 2} {
+                for \iy in {0, 1, 2} {
+                    if (\ix == 1 && \iy == 1) then {
+                        % Пропускаем центр (дырка)
+                    } else {
+                        sierpinski_carpet(\x + \ix*\ns, \y + \iy*\ns, \ns, \d-1);
+                    };
+                };
+            };
+        };
+    };
+}
+% Вызов функции для 4 итераций
+\tikzmath{ 
+\S = 5;
+for \d in {1,...,4}{
+	% To situate all plots nicely under and next to each other, define the coords
+	% of the lower left corners preemptively
+	\x = (\S+1)*mod(\d-1,2);
+	\y = int((\d-1)/2) * (\S+1);
+	sierpinski_carpet(\x,-\y,\S,\d);
+	};
+}
+\end{tikzpicture}
 \end{lstlisting}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{image/14.png}
-    \caption{Некорректная ссылка на уравнение из-за неправильного порядка команд}
-    \label{fig:014}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{image/10.png}
+\caption{Ковер Серпинского (4 итерации)}
+\label{fig:010}
 \end{figure}
 
 \section{Выводы}
-В ходе выполнения данной лабораторной работы я получил практические навыки по работе с графикой и системой перекрёстных ссылок в \LaTeX. Были освоены:
-\begin{itemize}
-    \item Вставка и настройка изображений с помощью пакета \texttt{graphicx}, включая масштабирование, кадрирование и поворот.
-    \item Управление расположением графики с помощью плавающих окружений (\texttt{figure}) и средств их "жёсткой" фиксации (пакет \texttt{float}).
-    \item Организация структуры проекта с выносом изображений в подкаталоги (\texttt{\textbackslash graphicspath}).
-    \item Создание системы перекрёстных ссылок на разделы, рисунки, уравнения и другие элементы с помощью команд \texttt{\textbackslash label} и \texttt{\textbackslash ref}.
-    \item Понимание важности порядка команд (\texttt{\textbackslash caption} перед \texttt{\textbackslash label}) и области видимости меток.
-    \item Улучшение интерактивности итогового документа за счёт кликабельных ссылок, предоставляемых пакетом \texttt{hyperref}.
-\end{itemize}
+В ходе лабораторной работы были полностью изучены возможности пакета TikZ для создания графики в \LaTeX. Были освоены базовые примитивы (линии, узлы), техники стилизации, работа с координатами и построение графиков функций. Особое внимание было уделено программному подходу к созданию изображений с использованием циклов и рекурсии на примере фракталов Серпинского.
 
 \printbibliography
   
